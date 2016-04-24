@@ -9,6 +9,8 @@ import Logica.Bloque;
 import Archivo.Leer;
 import java.awt.GridLayout;
 import javax.swing.JButton;
+import Recursos.IcoRecurso;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -21,28 +23,48 @@ public class UsuarioVisual extends javax.swing.JFrame {
      */
     public UsuarioVisual() {
         initComponents();
+        //Funcines para el Inicio del Mapa
+        Leer lectura = new Leer();
+        Bloque[][] matriz = lectura.ReadFile();
+        this.creacionBotones(matriz);
+        this.repaint();
+        this.setSize(740,580);
     }
 
-    /*Funcion diseñada para llenar el JPmapa de Botones*/
-    public void creacionBotones(Bloque[][] matriz) {
+
+    //Diseñada para generar los iconos
+    private ImageIcon IconoMapa(Bloque bloque){
+        ImageIcon imagen = new ImageIcon();
+        //Poner condicionales para elementos graficos
+        if(bloque.getContenido() == 1){
+            imagen = IcoRecurso.ICON_MURO;
+        }
+        
+        return imagen;
+    }
+        /*Funcion diseñada para llenar el JPmapa de Botones*/
+    private void creacionBotones(Bloque[][] matriz) {
         int filas = 10;
         int columnas = 10;
         jPmapa.setLayout(new GridLayout(10, 10));
         JButton bMatriz[][] = new JButton[10][10];
-
         //*
         for (int i = 0; i < filas; i++) {
             for (int j = 0; j < columnas; j++) {
                 int num = (int) (Math.random() * 10);
 
-                bMatriz[i][j] = new JButton(String.valueOf(num));
+                bMatriz[i][j] = new JButton();
+                bMatriz[i][j].setIcon(IconoMapa(matriz[i][j]));
+                
+                
+                
                 bMatriz[i][j].setBounds(20, 10, 360, 360);
 
                 jPmapa.add(bMatriz[i][j]);
                 //*
             }
         }
-       
+
     }
 
     /**
@@ -100,7 +122,7 @@ public class UsuarioVisual extends javax.swing.JFrame {
 
         jLIcoTitle.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/img Logo.png"))); // NOI18N
 
-        jPmapa.setBackground(new java.awt.Color(255, 204, 204));
+        jPmapa.setBackground(new java.awt.Color(204, 204, 255));
 
         javax.swing.GroupLayout jPmapaLayout = new javax.swing.GroupLayout(jPmapa);
         jPmapa.setLayout(jPmapaLayout);
@@ -113,7 +135,7 @@ public class UsuarioVisual extends javax.swing.JFrame {
             .addGap(0, 316, Short.MAX_VALUE)
         );
 
-        jLTitle.setFont(new java.awt.Font("Candara", 1, 18)); // NOI18N
+        jLTitle.setFont(new java.awt.Font("Candara", 1, 24)); // NOI18N
         jLTitle.setForeground(new java.awt.Color(0, 0, 153));
         jLTitle.setText("Univalle Smart Robot");
 
@@ -124,11 +146,12 @@ public class UsuarioVisual extends javax.swing.JFrame {
             .addGroup(jPBannerLayout.createSequentialGroup()
                 .addGap(24, 24, 24)
                 .addGroup(jPBannerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPmapa, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPmapa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPBannerLayout.createSequentialGroup()
+                        .addGap(99, 99, 99)
                         .addComponent(jLIcoTitle)
-                        .addGap(34, 34, 34)
-                        .addComponent(jLTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLTitle)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -137,9 +160,9 @@ public class UsuarioVisual extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPBannerLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPBannerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLTitle)
-                    .addComponent(jLIcoTitle))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(jLIcoTitle)
+                    .addComponent(jLTitle))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPmapa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -171,7 +194,7 @@ public class UsuarioVisual extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPBanner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -189,10 +212,7 @@ public class UsuarioVisual extends javax.swing.JFrame {
 
     private void jBbuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBbuscarActionPerformed
         // TODO add your handling code here:
-        Leer lectura = new Leer();
-        Bloque[][] matriz = lectura.ReadFile();
-        creacionBotones(matriz);
-        this.repaint();
+
     }//GEN-LAST:event_jBbuscarActionPerformed
 
     /**
