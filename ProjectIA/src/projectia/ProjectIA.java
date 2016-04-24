@@ -5,7 +5,9 @@
  */
 package projectia;
 
+import Archivo.Leer;
 import Graficos.UsuarioVisual;
+import Logica.Bloque;
 import java.awt.Color;
 
 /**
@@ -22,9 +24,21 @@ public class ProjectIA {
         //Instancion la interface grafica
         UsuarioVisual visualizacion = new UsuarioVisual();
         //Hago visible al Usuario
-       
         visualizacion.setVisible(true);
- 
+        /*Prueba de lectura del archivo plano por consola*/
+        Leer lectura = new Leer();
+        Bloque[][] matriz = lectura.ReadFile();
+        //Columnas}
+        System.out.println("Pintando Matriz");
+        for (int i = 0; i < matriz.length; i++) {
+            //Filas
+            for (int j = 0; j < matriz.length; j++) {
+                System.out.print(" "+ matriz[j][i].getContenido()+" |");
+
+            }
+            System.out.println("-");
+        }
+
     }
-    
+
 }

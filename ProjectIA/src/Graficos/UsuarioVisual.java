@@ -33,6 +33,9 @@ public class UsuarioVisual extends javax.swing.JFrame {
         jPBanner = new javax.swing.JPanel();
         jLIcoTitle = new javax.swing.JLabel();
         jPmapa = new javax.swing.JPanel();
+        jLTb00 = new javax.swing.JLabel();
+        jLTb01 = new javax.swing.JLabel();
+        jLTb02 = new javax.swing.JLabel();
         jLTitle = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
@@ -70,15 +73,37 @@ public class UsuarioVisual extends javax.swing.JFrame {
 
         jPmapa.setBackground(new java.awt.Color(255, 204, 204));
 
+        jLTb00.setBackground(new java.awt.Color(255, 255, 255));
+        jLTb00.setText("0,0");
+
+        jLTb01.setBackground(new java.awt.Color(255, 255, 255));
+        jLTb01.setText("0,1");
+
+        jLTb02.setBackground(new java.awt.Color(255, 255, 255));
+        jLTb02.setText("0,2");
+
         javax.swing.GroupLayout jPmapaLayout = new javax.swing.GroupLayout(jPmapa);
         jPmapa.setLayout(jPmapaLayout);
         jPmapaLayout.setHorizontalGroup(
             jPmapaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 225, Short.MAX_VALUE)
+            .addGroup(jPmapaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPmapaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLTb00, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLTb01, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLTb02, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(172, Short.MAX_VALUE))
         );
         jPmapaLayout.setVerticalGroup(
             jPmapaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 167, Short.MAX_VALUE)
+            .addGroup(jPmapaLayout.createSequentialGroup()
+                .addGap(7, 7, 7)
+                .addComponent(jLTb00, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLTb01, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLTb02, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(91, Short.MAX_VALUE))
         );
 
         jLTitle.setFont(new java.awt.Font("Candara", 1, 18)); // NOI18N
@@ -195,6 +220,9 @@ public class UsuarioVisual extends javax.swing.JFrame {
     private javax.swing.JButton jBbuscar;
     private javax.swing.JComboBox<String> jCseleccion;
     private javax.swing.JLabel jLIcoTitle;
+    private javax.swing.JLabel jLTb00;
+    private javax.swing.JLabel jLTb01;
+    private javax.swing.JLabel jLTb02;
     private javax.swing.JLabel jLTitle;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPBanner;
