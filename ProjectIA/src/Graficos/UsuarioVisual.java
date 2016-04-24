@@ -5,6 +5,11 @@
  */
 package Graficos;
 
+import Logica.Bloque;
+import Archivo.Leer;
+import java.awt.GridLayout;
+import javax.swing.JButton;
+
 /**
  *
  * @author Mauro
@@ -16,6 +21,28 @@ public class UsuarioVisual extends javax.swing.JFrame {
      */
     public UsuarioVisual() {
         initComponents();
+    }
+
+    /*Funcion diseñada para llenar el JPmapa de Botones*/
+    public void creacionBotones(Bloque[][] matriz) {
+        int filas = 10;
+        int columnas = 10;
+        jPmapa.setLayout(new GridLayout(10, 10));
+        JButton bMatriz[][] = new JButton[10][10];
+
+        //*
+        for (int i = 0; i < filas; i++) {
+            for (int j = 0; j < columnas; j++) {
+                int num = (int) (Math.random() * 10);
+
+                bMatriz[i][j] = new JButton(String.valueOf(num));
+                bMatriz[i][j].setBounds(20, 10, 360, 360);
+
+                jPmapa.add(bMatriz[i][j]);
+                //*
+            }
+        }
+       
     }
 
     /**
@@ -33,9 +60,6 @@ public class UsuarioVisual extends javax.swing.JFrame {
         jPBanner = new javax.swing.JPanel();
         jLIcoTitle = new javax.swing.JLabel();
         jPmapa = new javax.swing.JPanel();
-        jLTb00 = new javax.swing.JLabel();
-        jLTb01 = new javax.swing.JLabel();
-        jLTb02 = new javax.swing.JLabel();
         jLTitle = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
@@ -59,6 +83,11 @@ public class UsuarioVisual extends javax.swing.JFrame {
         jBbuscar.setText("Buscar");
         jBbuscar.setContentAreaFilled(false);
         jBbuscar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jBbuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBbuscarActionPerformed(evt);
+            }
+        });
 
         jCseleccion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Informada", "No informada" }));
         jCseleccion.addActionListener(new java.awt.event.ActionListener() {
@@ -73,37 +102,15 @@ public class UsuarioVisual extends javax.swing.JFrame {
 
         jPmapa.setBackground(new java.awt.Color(255, 204, 204));
 
-        jLTb00.setBackground(new java.awt.Color(255, 255, 255));
-        jLTb00.setText("0,0");
-
-        jLTb01.setBackground(new java.awt.Color(255, 255, 255));
-        jLTb01.setText("0,1");
-
-        jLTb02.setBackground(new java.awt.Color(255, 255, 255));
-        jLTb02.setText("0,2");
-
         javax.swing.GroupLayout jPmapaLayout = new javax.swing.GroupLayout(jPmapa);
         jPmapa.setLayout(jPmapaLayout);
         jPmapaLayout.setHorizontalGroup(
             jPmapaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPmapaLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPmapaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLTb00, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLTb01, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLTb02, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(172, Short.MAX_VALUE))
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         jPmapaLayout.setVerticalGroup(
             jPmapaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPmapaLayout.createSequentialGroup()
-                .addGap(7, 7, 7)
-                .addComponent(jLTb00, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLTb01, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLTb02, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(91, Short.MAX_VALUE))
+            .addGap(0, 316, Short.MAX_VALUE)
         );
 
         jLTitle.setFont(new java.awt.Font("Candara", 1, 18)); // NOI18N
@@ -115,26 +122,25 @@ public class UsuarioVisual extends javax.swing.JFrame {
         jPBannerLayout.setHorizontalGroup(
             jPBannerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPBannerLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPmapa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(170, 170, 170))
-            .addGroup(jPBannerLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLIcoTitle)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(24, 24, 24)
+                .addGroup(jPBannerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPmapa, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPBannerLayout.createSequentialGroup()
+                        .addComponent(jLIcoTitle)
+                        .addGap(34, 34, 34)
+                        .addComponent(jLTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jPBannerLayout.setVerticalGroup(
             jPBannerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPBannerLayout.createSequentialGroup()
-                .addGap(0, 14, Short.MAX_VALUE)
+                .addContainerGap()
                 .addGroup(jPBannerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLIcoTitle)
-                    .addComponent(jLTitle))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPmapa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(9, 9, 9))
+                    .addComponent(jLTitle)
+                    .addComponent(jLIcoTitle))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPmapa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jLabel1.setFont(new java.awt.Font("Candara", 0, 11)); // NOI18N
@@ -148,24 +154,24 @@ public class UsuarioVisual extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jPBanner, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addGap(8, 8, 8)
+                        .addComponent(jPBanner, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jCseleccion, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jBbuscar)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 289, Short.MAX_VALUE)
+                        .addComponent(jBbuscar))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
                 .addComponent(jPBanner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(2, 2, 2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -180,6 +186,14 @@ public class UsuarioVisual extends javax.swing.JFrame {
     private void jCseleccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCseleccionActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jCseleccionActionPerformed
+
+    private void jBbuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBbuscarActionPerformed
+        // TODO add your handling code here:
+        Leer lectura = new Leer();
+        Bloque[][] matriz = lectura.ReadFile();
+        creacionBotones(matriz);
+        this.repaint();
+    }//GEN-LAST:event_jBbuscarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -220,9 +234,6 @@ public class UsuarioVisual extends javax.swing.JFrame {
     private javax.swing.JButton jBbuscar;
     private javax.swing.JComboBox<String> jCseleccion;
     private javax.swing.JLabel jLIcoTitle;
-    private javax.swing.JLabel jLTb00;
-    private javax.swing.JLabel jLTb01;
-    private javax.swing.JLabel jLTb02;
     private javax.swing.JLabel jLTitle;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPBanner;

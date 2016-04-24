@@ -26,6 +26,7 @@ public class ProjectIA {
         //Hago visible al Usuario
         visualizacion.setVisible(true);
         /*Prueba de lectura del archivo plano por consola*/
+        /*
         Leer lectura = new Leer();
         Bloque[][] matriz = lectura.ReadFile();
         //Columnas}
@@ -37,7 +38,7 @@ public class ProjectIA {
 
             }
             System.out.println("-");
-        }
+        }*/
 
     }
 

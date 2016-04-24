@@ -11,7 +11,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.StringTokenizer;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -21,6 +20,8 @@ import javax.swing.JOptionPane;
  * @author Mauro
  */
 public class Leer {
+
+    int contadorErrores = 0;
 
     public Bloque[][] ReadFile() {
         File archivo;
@@ -37,31 +38,32 @@ public class Leer {
             archivo = file.getSelectedFile();
             fr = new FileReader(archivo);
             br = new BufferedReader(fr);
-
             // Lectura del fichero
             String linea;
             int columna = 0;
-
             while ((linea = br.readLine()) != null) {
-
-                System.out.println("Linea " + linea);
                 //Esta funcion separa los caracteres presentes en las lineas
                 StringTokenizer tokens = new StringTokenizer(linea);
                 /*Este ciclo se encarga de llenar las filas*/
                 for (int i = 0; i < 10; i++) {
                     /*Obtengo un valor*/
                     int primero = Integer.parseInt(tokens.nextToken());
-                    //Almaceno el Valor en la Matriz
-                    System.out.println(" entro "+ primero);
+                    //Almaceno el Valor en la Matriz      
                     matriz[i][columna] = new Bloque(primero);
                 }
-                columna ++;
+                columna++;
             }
             br.close();
 
-        } catch (HeadlessException | IOException | NumberFormatException e) {
-            JOptionPane.showInputDialog(e + "Error de lectura de archivo");
+        } catch (HeadlessException | IOException | NumberFormatException | NullPointerException e) {
+            JOptionPane.showMessageDialog(null, "Error al leer archivo intentelo de nuevo", "Error de lectura " + contadorErrores, 0);
+            if (contadorErrores < 3) {
+                contadorErrores++;
+                ReadFile();
 
+            } else {
+                JOptionPane.showMessageDialog(null, "El archivo de lectura no es el indicado \n Intentelo luego con la cabeza fria", "Error de lectura", 0);
+            }
         } finally {
             // En el finally cerramos el fichero, para asegurarnos
             // que se cierra tanto si todo va bien como si salta 
