@@ -11,6 +11,7 @@ import java.awt.GridLayout;
 import javax.swing.JButton;
 import Recursos.IcoRecurso;
 import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 
 /**
  *
@@ -28,7 +29,7 @@ public class UsuarioVisual extends javax.swing.JFrame {
         Bloque[][] matriz = lectura.ReadFile();
         this.creacionBotones(matriz);
         this.repaint();
-        this.setSize(740,580);
+        this.setSize(720,480);
     }
 
 
@@ -47,17 +48,12 @@ public class UsuarioVisual extends javax.swing.JFrame {
         int filas = 10;
         int columnas = 10;
         jPmapa.setLayout(new GridLayout(10, 10));
-        JButton bMatriz[][] = new JButton[10][10];
+        JLabel bMatriz[][] = new JLabel[10][10];
         //*
         for (int i = 0; i < filas; i++) {
             for (int j = 0; j < columnas; j++) {
-                int num = (int) (Math.random() * 10);
-
-                bMatriz[i][j] = new JButton();
-                bMatriz[i][j].setIcon(IconoMapa(matriz[i][j]));
-                
-                
-                
+                bMatriz[i][j] = new JLabel();
+                bMatriz[i][j].setIcon(IconoMapa(matriz[j][i])); 
                 bMatriz[i][j].setBounds(20, 10, 360, 360);
 
                 jPmapa.add(bMatriz[i][j]);
