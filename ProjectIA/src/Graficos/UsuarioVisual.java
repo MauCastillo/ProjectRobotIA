@@ -29,21 +29,37 @@ public class UsuarioVisual extends javax.swing.JFrame {
         Bloque[][] matriz = lectura.ReadFile();
         this.creacionBotones(matriz);
         this.repaint();
-        this.setSize(720,480);
+        this.setSize(450, 480);
+        setResizable(false);
     }
-
 
     //Diseñada para generar los iconos
-    private ImageIcon IconoMapa(Bloque bloque){
+    private ImageIcon IconoMapa(Bloque bloque) {
         ImageIcon imagen = new ImageIcon();
         //Poner condicionales para elementos graficos
-        if(bloque.getContenido() == 1){
+        if (bloque.getContenido() == 1) {
             imagen = IcoRecurso.ICON_MURO;
         }
-        
+        if (bloque.getContenido() == 2) {
+            imagen = IcoRecurso.ICON_ROBOT;
+        }
+        if (bloque.getContenido() == 3) {
+            imagen = IcoRecurso.ICON_TRAJE;
+        }
+        if (bloque.getContenido() == 4) {
+            imagen = IcoRecurso.ICON_RAYOAZUL;
+        }
+        if (bloque.getContenido() == 5) {
+            imagen = IcoRecurso.ICON_RAYOROJO;
+        }
+        if (bloque.getContenido() == 6) {
+            imagen = IcoRecurso.ICON_BATERIA;
+        }
+
         return imagen;
     }
-        /*Funcion diseñada para llenar el JPmapa de Botones*/
+    /*Funcion diseñada para llenar el JPmapa de Botones*/
+
     private void creacionBotones(Bloque[][] matriz) {
         int filas = 10;
         int columnas = 10;
@@ -53,8 +69,8 @@ public class UsuarioVisual extends javax.swing.JFrame {
         for (int i = 0; i < filas; i++) {
             for (int j = 0; j < columnas; j++) {
                 bMatriz[i][j] = new JLabel();
-                bMatriz[i][j].setIcon(IconoMapa(matriz[j][i])); 
-                bMatriz[i][j].setBounds(20, 10, 360, 360);
+                bMatriz[i][j].setIcon(IconoMapa(matriz[j][i]));
+                bMatriz[i][j].setBounds(10, 10, 10, 10);
 
                 jPmapa.add(bMatriz[i][j]);
                 //*
@@ -74,7 +90,7 @@ public class UsuarioVisual extends javax.swing.JFrame {
 
         jPanel2 = new javax.swing.JPanel();
         jBbuscar = new javax.swing.JButton();
-        jCseleccion = new javax.swing.JComboBox<>();
+        jCseleccion = new javax.swing.JComboBox<String>();
         jPBanner = new javax.swing.JPanel();
         jLIcoTitle = new javax.swing.JLabel();
         jPmapa = new javax.swing.JPanel();
@@ -107,18 +123,18 @@ public class UsuarioVisual extends javax.swing.JFrame {
             }
         });
 
-        jCseleccion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Informada", "No informada" }));
+        jCseleccion.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Informada", "No informada" }));
         jCseleccion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCseleccionActionPerformed(evt);
             }
         });
 
-        jPBanner.setBackground(new java.awt.Color(255, 255, 255));
+        jPBanner.setBackground(new java.awt.Color(204, 204, 255));
 
         jLIcoTitle.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/img Logo.png"))); // NOI18N
 
-        jPmapa.setBackground(new java.awt.Color(204, 204, 255));
+        jPmapa.setBackground(new java.awt.Color(255, 255, 255));
 
         javax.swing.GroupLayout jPmapaLayout = new javax.swing.GroupLayout(jPmapa);
         jPmapa.setLayout(jPmapaLayout);
@@ -140,26 +156,30 @@ public class UsuarioVisual extends javax.swing.JFrame {
         jPBannerLayout.setHorizontalGroup(
             jPBannerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPBannerLayout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addGroup(jPBannerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPmapa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPBannerLayout.createSequentialGroup()
-                        .addGap(99, 99, 99)
-                        .addComponent(jLIcoTitle)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLTitle)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addGap(65, 65, 65)
+                .addComponent(jLIcoTitle)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLTitle)
+                .addContainerGap(151, Short.MAX_VALUE))
+            .addGroup(jPBannerLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPmapa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPBannerLayout.setVerticalGroup(
             jPBannerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPBannerLayout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(jPBannerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLIcoTitle)
-                    .addComponent(jLTitle))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPmapa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPBannerLayout.createSequentialGroup()
+                        .addGap(13, 13, 13)
+                        .addComponent(jLTitle)
+                        .addGap(17, 17, 17))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPBannerLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLIcoTitle)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
+                .addComponent(jPmapa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         jLabel1.setFont(new java.awt.Font("Candara", 0, 11)); // NOI18N
@@ -189,8 +209,8 @@ public class UsuarioVisual extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPBanner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+                .addComponent(jPBanner, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
