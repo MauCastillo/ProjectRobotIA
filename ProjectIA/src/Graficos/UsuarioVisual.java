@@ -6,10 +6,13 @@
 package Graficos;
 
 import Logica.Bloque;
+import Logica.Coordernada;
 import Archivo.Leer;
+import Logica.Movimientos;
 import java.awt.GridLayout;
-import javax.swing.JButton;
 import Recursos.IcoRecurso;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
@@ -22,15 +25,19 @@ public class UsuarioVisual extends javax.swing.JFrame {
     /**
      * Creates new form UsuarioVisual
      */
+    Leer lectura = new Leer();
+    Bloque[][] matriz;
+    Coordernada inicia = new Coordernada();
+
     public UsuarioVisual() {
         initComponents();
         //Funcines para el Inicio del Mapa
-        Leer lectura = new Leer();
-        Bloque[][] matriz = lectura.ReadFile();
+        this.matriz = lectura.ReadFile();
+        this.inicia = lectura.inicio;
         this.creacionBotones(matriz);
         this.repaint();
-        this.setSize(450, 480);
-        setResizable(false);
+        this.setSize(450, 491);
+        //setResizable(false);
     }
 
     //Diseñada para generar los iconos
@@ -58,25 +65,29 @@ public class UsuarioVisual extends javax.swing.JFrame {
 
         return imagen;
     }
+
     /*Funcion diseñada para llenar el JPmapa de Botones*/
-
     private void creacionBotones(Bloque[][] matriz) {
-        int filas = 10;
-        int columnas = 10;
-        jPmapa.setLayout(new GridLayout(10, 10));
-        JLabel bMatriz[][] = new JLabel[10][10];
-        //*
-        for (int i = 0; i < filas; i++) {
-            for (int j = 0; j < columnas; j++) {
-                bMatriz[i][j] = new JLabel();
-                bMatriz[i][j].setIcon(IconoMapa(matriz[j][i]));
-                bMatriz[i][j].setBounds(10, 10, 10, 10);
+       
 
-                jPmapa.add(bMatriz[i][j]);
-                //*
+            this.setSize(450, 492);
+            jPmapa.removeAll();
+            int filas = 10;
+            int columnas = 10;
+            jPmapa.setLayout(new GridLayout(10, 10));
+            JLabel bMatriz[][] = new JLabel[10][10];
+            //*
+            for (int i = 0; i < filas; i++) {
+                for (int j = 0; j < columnas; j++) {
+                    bMatriz[i][j] = new JLabel();
+                    bMatriz[i][j].setIcon(IconoMapa(matriz[j][i]));
+                    bMatriz[i][j].setBounds(10, 10, 10, 10);
+
+                    jPmapa.add(bMatriz[i][j]);
+                    //*
+                }
             }
-        }
-
+            this.setSize(450, 493);   
     }
 
     /**
@@ -227,7 +238,15 @@ public class UsuarioVisual extends javax.swing.JFrame {
     }//GEN-LAST:event_jCseleccionActionPerformed
 
     private void jBbuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBbuscarActionPerformed
+
         // TODO add your handling code here:
+        Movimientos mover = new Movimientos(inicia);
+        matriz = mover.izquierda(matriz);
+        matriz = mover.subir(matriz);
+        matriz = mover.bajar(matriz);
+        matriz = mover.derecha(matriz);
+        creacionBotones(matriz);
+        // mover.bajar(matriz,lectura.inicio.getIniciox(),lectura.inicio.getInicioy());}
 
     }//GEN-LAST:event_jBbuscarActionPerformed
 
@@ -276,4 +295,6 @@ public class UsuarioVisual extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPmapa;
     // End of variables declaration//GEN-END:variables
+
+
 }

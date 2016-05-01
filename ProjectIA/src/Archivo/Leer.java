@@ -6,6 +6,7 @@
 package Archivo;
 
 import Logica.Bloque;
+import Logica.Coordernada;
 import java.awt.HeadlessException;
 import java.io.BufferedReader;
 import java.io.File;
@@ -21,6 +22,7 @@ import javax.swing.JOptionPane;
  */
 public class Leer {
 
+    public Coordernada inicio;
     int contadorErrores = 0;
 
     public Bloque[][] ReadFile() {
@@ -48,7 +50,10 @@ public class Leer {
                 for (int i = 0; i < 10; i++) {
                     /*Obtengo un valor*/
                     int primero = Integer.parseInt(tokens.nextToken());
-                    //Almaceno el Valor en la Matriz      
+                    //Almaceno el Valor en la Matriz
+                    if (primero == 2) {
+                        inicio = new Coordernada(i, columna);
+                    }
                     matriz[i][columna] = new Bloque(primero);
                 }
                 columna++;

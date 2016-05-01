@@ -10,8 +10,22 @@ package Logica;
  * @author Mauro
  */
 public class Bloque {
-    
-    int contenido;
+
+   private  int contenido;
+   private int ultimoMovimiento;
+
+    public Bloque() {
+        this.contenido = 0;
+        this.ultimoMovimiento = 0;
+    }
+
+    public int getUltimoMovimiento() {
+        return ultimoMovimiento;
+    }
+
+    public void setUltimoMovimiento(int ultimoMovimiento) {
+        this.ultimoMovimiento = ultimoMovimiento;
+    }
 
     public Bloque(int contenido) {
         this.contenido = contenido;
@@ -24,7 +38,5 @@ public class Bloque {
     public void setContenido(int contenido) {
         this.contenido = contenido;
     }
-    
-    
-    
+
 }
