@@ -11,8 +11,6 @@ import Archivo.Leer;
 import Logica.Movimientos;
 import java.awt.GridLayout;
 import Recursos.IcoRecurso;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
@@ -242,9 +240,11 @@ public class UsuarioVisual extends javax.swing.JFrame {
         // TODO add your handling code here:
         Movimientos mover = new Movimientos(inicia);
         matriz = mover.izquierda(matriz);
-        matriz = mover.subir(matriz);
-        matriz = mover.bajar(matriz);
+         matriz = mover.bajar(matriz);
         matriz = mover.derecha(matriz);
+        matriz = mover.subir(matriz);
+       
+        
         creacionBotones(matriz);
         // mover.bajar(matriz,lectura.inicio.getIniciox(),lectura.inicio.getInicioy());}
 

@@ -28,7 +28,7 @@ public class Movimientos {
             int subida = y - 1;
             Bloque llegada = entrada[x][subida];
             System.out.println("Logica.Movimientos.subir() " + llegada.getContenido() );
-            if (llegada.getContenido() != 1) {
+            if (llegada.getContenido() != 1 && llegada.getUltimoMovimiento() < 2) {
                 salida[x][subida].setContenido(2);
                 salida[x][y].setContenido(0);
                 salida[x][subida].setUltimoMovimiento(2);
@@ -52,7 +52,7 @@ public class Movimientos {
             int bajada = y + 1;
             Bloque llegada = entrada[x][bajada];
             System.out.println("Logica.Movimientos.bajar() " + llegada.getContenido() );
-            if (llegada.getContenido() != 1) {
+            if (llegada.getContenido() != 1 && llegada.getUltimoMovimiento() < 4) {
                 salida[x][bajada].setContenido(2);
                 salida[x][y].setContenido(0);
                 salida[x][bajada].setUltimoMovimiento(4);
@@ -77,7 +77,7 @@ public class Movimientos {
            
             Bloque llegada = entrada[derecha][y];
              System.out.println("Logica.Movimientos.derecha() " + llegada.getContenido() );
-            if (llegada.getContenido() != 1) {
+            if (llegada.getContenido() != 1 && llegada.getUltimoMovimiento() < 3) {
                 salida[derecha][y].setContenido(2);
                 salida[x][y].setContenido(0);
                 salida[derecha][y].setUltimoMovimiento(3);
@@ -101,7 +101,7 @@ public class Movimientos {
             int izquierda = x - 1;
             Bloque llegada = entrada[izquierda][y];
             System.out.println("Logica.Movimientos.izquierda()" + llegada.getContenido());
-            if (llegada.getContenido() != 1) {
+            if (llegada.getContenido() != 1 && llegada.getUltimoMovimiento() < 1) {
                 System.out.println("Logica.Movimientos.izquierda()");
                 salida[izquierda][y].setContenido(2);
                 salida[x][y].setContenido(0);
