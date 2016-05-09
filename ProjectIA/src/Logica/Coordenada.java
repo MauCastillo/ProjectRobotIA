@@ -9,17 +9,17 @@ package Logica;
  *
  * @author Mauro
  */
-public class Coordernada {
+public class Coordenada {
 
     private int iniciox = 0;
     private int inicioy = 0;
 
-    public Coordernada(int x, int y) {
+    public Coordenada(int x, int y) {
         this.iniciox = x;
         this.inicioy = y;
     }
 
-    public Coordernada() {
+    public Coordenada() {
     }
 
     public int getIniciox() {

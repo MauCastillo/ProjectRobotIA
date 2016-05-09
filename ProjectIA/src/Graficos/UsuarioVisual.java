@@ -6,9 +6,9 @@
 package Graficos;
 
 import Logica.Bloque;
-import Logica.Coordernada;
+import Logica.Coordenada;
 import Archivo.Leer;
-import Logica.Movimientos;
+import Logica.Algorithimo;
 import java.awt.GridLayout;
 import Recursos.IcoRecurso;
 import javax.swing.ImageIcon;
@@ -25,7 +25,7 @@ public class UsuarioVisual extends javax.swing.JFrame {
      */
     Leer lectura = new Leer();
     Bloque[][] matriz;
-    Coordernada inicia = new Coordernada();
+    Coordenada inicia = new Coordenada();
 
     public UsuarioVisual() {
         initComponents();
@@ -66,26 +66,25 @@ public class UsuarioVisual extends javax.swing.JFrame {
 
     /*Funcion diseñada para llenar el JPmapa de Botones*/
     private void creacionBotones(Bloque[][] matriz) {
-       
 
-            this.setSize(450, 492);
-            jPmapa.removeAll();
-            int filas = 10;
-            int columnas = 10;
-            jPmapa.setLayout(new GridLayout(10, 10));
-            JLabel bMatriz[][] = new JLabel[10][10];
-            //*
-            for (int i = 0; i < filas; i++) {
-                for (int j = 0; j < columnas; j++) {
-                    bMatriz[i][j] = new JLabel();
-                    bMatriz[i][j].setIcon(IconoMapa(matriz[j][i]));
-                    bMatriz[i][j].setBounds(10, 10, 10, 10);
+        this.setSize(450, 492);
+        jPmapa.removeAll();
+        int filas = 10;
+        int columnas = 10;
+        jPmapa.setLayout(new GridLayout(10, 10));
+        JLabel bMatriz[][] = new JLabel[10][10];
+        //*
+        for (int i = 0; i < filas; i++) {
+            for (int j = 0; j < columnas; j++) {
+                bMatriz[i][j] = new JLabel();
+                bMatriz[i][j].setIcon(IconoMapa(matriz[j][i]));
+                bMatriz[i][j].setBounds(10, 10, 10, 10);
 
-                    jPmapa.add(bMatriz[i][j]);
-                    //*
-                }
+                jPmapa.add(bMatriz[i][j]);
+                //*
             }
-            this.setSize(450, 493);   
+        }
+        this.setSize(450, 493);
     }
 
     /**
@@ -238,13 +237,8 @@ public class UsuarioVisual extends javax.swing.JFrame {
     private void jBbuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBbuscarActionPerformed
 
         // TODO add your handling code here:
-        Movimientos mover = new Movimientos(inicia);
-        matriz = mover.izquierda(matriz);
-         matriz = mover.bajar(matriz);
-        matriz = mover.derecha(matriz);
-        matriz = mover.subir(matriz);
-       
-        
+        Algorithimo buscar = new Algorithimo(matriz, inicia);
+        buscar.BusquedaProfundida();
         creacionBotones(matriz);
         // mover.bajar(matriz,lectura.inicio.getIniciox(),lectura.inicio.getInicioy());}
 
@@ -295,6 +289,5 @@ public class UsuarioVisual extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPmapa;
     // End of variables declaration//GEN-END:variables
-
 
 }
