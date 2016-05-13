@@ -21,6 +21,7 @@ public class IcoRecurso {
     public static final ImageIcon ICON_RAYOAZUL = getIcon("rayoblue.png");
     public static final ImageIcon ICON_RAYOROJO = getIcon("rayored.png");
     public static final ImageIcon ICON_BATERIA = getIcon("bateria.png");
+    public static final ImageIcon ICON_GANADOR = getIcon("ganador.png");
     
     private static ImageIcon getIcon(String path) {
         URL resource = IcoRecurso.class.getResource("icons/" + path);

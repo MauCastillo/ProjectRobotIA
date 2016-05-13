@@ -7,9 +7,8 @@ package Logica;
 
 import Graficos.UsuarioVisual;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JFrame;
+import Recursos.IcoRecurso;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -22,6 +21,7 @@ public class Algorithimo {
     private Coordenada inicio;
     private Movimientos mover;
     UsuarioVisual userGrafica;
+    
 
     public Algorithimo(Bloque[][] matrix, Coordenada iniCoordenada,UsuarioVisual graficauser) {
         this.matrix = matrix;
@@ -36,11 +36,16 @@ public class Algorithimo {
         ArrayList<Bloque> salida = new ArrayList<>();
         boolean movimientos = false;
         /*Este ciclo prueba si ya no hay mas movimientos*/
+        int numeroPremios = mover.getPremios();
+        while(numeroPremios != 2){
         do {
                 movimientos = recorrido();
                 userGrafica.creacionBotones(matrix);        
         } while (movimientos);
         mover.clear();
+        }
+        System.out.println("--------------------------Nomeros de Objetivos ------------------- " +numeroPremios);
+        JOptionPane.showMessageDialog(userGrafica, this, "Ganaste", numeroPremios, IcoRecurso.ICON_GANADOR);
         return salida;
     }
 //Esta funcion sigue la secuencia y ademas retorno si hubo cambios

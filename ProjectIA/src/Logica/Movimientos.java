@@ -13,6 +13,9 @@ import java.util.ArrayList;
  */
 public class Movimientos {
 
+    private int premios = 0;
+    private int escudo = 0;
+    public ArrayList<ArrayList<Coordenada>> busqueda = new ArrayList<>();//#Este vector almacena todos los recorridos
     public ArrayList<Coordenada> recorrido;
     Bloque[][] matrix;
 
@@ -68,6 +71,8 @@ public class Movimientos {
             partida.setUltimoMovimiento(1);
             partida.setContenido(0);
             llegada.setContenido(2);
+            //#Compruebo si hay un objeto en ese punto
+            ObtencionObjetos(llegada);
             matrix[x][y] = partida;
             matrix[(x - 1)][y] = llegada;
             recorrido.add(ubicacion);
@@ -115,6 +120,8 @@ public class Movimientos {
             partida.setUltimoMovimiento(2);
             partida.setContenido(0);
             llegada.setContenido(2);
+            //#Compruebo si hay un objeto en ese punto
+            ObtencionObjetos(llegada);
             matrix[x][y] = partida;
             matrix[(x)][y - 1] = llegada;
             recorrido.add(ubicacion);
@@ -162,6 +169,8 @@ public class Movimientos {
             partida.setUltimoMovimiento(3);
             partida.setContenido(0);
             llegada.setContenido(2);
+            //#Compruebo si hay un objeto en ese punto
+            ObtencionObjetos(llegada);
             matrix[x][y] = partida;
             matrix[(x + 1)][y] = llegada;
             recorrido.add(ubicacion);
@@ -210,6 +219,8 @@ public class Movimientos {
             partida.setUltimoMovimiento(1);
             partida.setContenido(0);
             llegada.setContenido(2);
+            //#Compruebo si hay un objeto en ese punto
+            ObtencionObjetos(llegada);
             matrix[x][y] = partida;
             matrix[(x)][y + 1] = llegada;
             recorrido.add(ubicacion);
@@ -239,12 +250,14 @@ public class Movimientos {
         for (int i = 0; i < 10; i++) {
             //Filas
             for (int j = 0; j < 10; j++) {
-                matrix[i][j].setUltimoMovimiento(0); 
+                matrix[i][j].setUltimoMovimiento(0);
             }
         }
         Coordenada nuevoPrinciopio = new Coordenada();
-        int ultimo = recorrido.size() -1;
+
+        int ultimo = recorrido.size() - 1;
         nuevoPrinciopio = recorrido.get(ultimo);
+        busqueda.add(recorrido);
         recorrido.clear();
         recorrido.add(nuevoPrinciopio);
         System.out.println("-");
@@ -262,4 +275,40 @@ public class Movimientos {
         }
         return salida;
     }
+
+    boolean ObtencionObjetos(Bloque intro) {
+        boolean salida = false;
+        if (intro.getContenido() == 6) {
+            premios++;
+            salida = true;
+
+        }
+        if (intro.getContenido() == 3) {
+            escudo++;
+            salida = true;
+        }
+
+        return salida;
+    }
+
+    public int getPremios() {
+        return premios;
+    }
+
+    public int getEscudo() {
+        return escudo;
+    }
+
+    public ArrayList<ArrayList<Coordenada>> getBusqueda() {
+        return busqueda;
+    }
+
+    public ArrayList<Coordenada> getRecorrido() {
+        return recorrido;
+    }
+
+    public Bloque[][] getMatrix() {
+        return matrix;
+    }
+    
 }
