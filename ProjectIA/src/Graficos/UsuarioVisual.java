@@ -26,6 +26,7 @@ public class UsuarioVisual extends javax.swing.JFrame {
     Leer lectura = new Leer();
     Bloque[][] matriz;
     Coordenada inicia = new Coordenada();
+    Algorithimo buscar;
 
     public UsuarioVisual() {
         initComponents();
@@ -35,6 +36,7 @@ public class UsuarioVisual extends javax.swing.JFrame {
         this.creacionBotones(matriz);
         this.repaint();
         this.setSize(450, 491);
+        buscar = new Algorithimo(matriz, inicia,this);
         //setResizable(false);
     }
 
@@ -60,12 +62,11 @@ public class UsuarioVisual extends javax.swing.JFrame {
         if (bloque.getContenido() == 6) {
             imagen = IcoRecurso.ICON_BATERIA;
         }
-
         return imagen;
     }
 
     /*Funcion diseñada para llenar el JPmapa de Botones*/
-    private void creacionBotones(Bloque[][] matriz) {
+    public void creacionBotones(Bloque[][] matriz) {
 
         this.setSize(450, 492);
         jPmapa.removeAll();
@@ -237,9 +238,7 @@ public class UsuarioVisual extends javax.swing.JFrame {
     private void jBbuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBbuscarActionPerformed
 
         // TODO add your handling code here:
-        Algorithimo buscar = new Algorithimo(matriz, inicia);
-        buscar.BusquedaProfundida();
-        creacionBotones(matriz);
+    buscar.BusquedaProfundida();
         // mover.bajar(matriz,lectura.inicio.getIniciox(),lectura.inicio.getInicioy());}
 
     }//GEN-LAST:event_jBbuscarActionPerformed

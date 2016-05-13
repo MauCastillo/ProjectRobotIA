@@ -5,8 +5,11 @@
  */
 package Logica;
 
-import Archivo.Leer;
+import Graficos.UsuarioVisual;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFrame;
 
 /**
  *
@@ -18,40 +21,39 @@ public class Algorithimo {
     private Bloque[][] matrix;
     private Coordenada inicio;
     private Movimientos mover;
-    private Bloque[][] tmpMatrix;
-    private Bloque[][] inputMatrix;
+    UsuarioVisual userGrafica;
 
-    public Algorithimo(Bloque[][] matrix,Coordenada iniCoordenada) {
+    public Algorithimo(Bloque[][] matrix, Coordenada iniCoordenada,UsuarioVisual graficauser) {
         this.matrix = matrix;
         this.inicio = iniCoordenada;
-        mover = new Movimientos(inicio);
-        tmpMatrix = new Bloque[10][10];
-        inputMatrix = new Bloque[10][10];
-        tmpMatrix = matrix;
+        this.userGrafica = graficauser;
+        mover = new Movimientos(inicio, matrix);
+
 
     }
 
     public ArrayList<Bloque> BusquedaProfundida() {
         ArrayList<Bloque> salida = new ArrayList<>();
-        for (int i = 0; i < 6; i++) {
-            recorrido();
-            
-        }
-
+        boolean movimientos = false;
+        /*Este ciclo prueba si ya no hay mas movimientos*/
+        do {
+                movimientos = recorrido();
+                userGrafica.creacionBotones(matrix);        
+        } while (movimientos);
+        mover.clear();
         return salida;
     }
+//Esta funcion sigue la secuencia y ademas retorno si hubo cambios
 
     private boolean recorrido() {
         boolean salida = false;
-        inputMatrix = mover.izquierda(matrix);
-        inputMatrix = mover.subir(inputMatrix);
-        inputMatrix = mover.derecha(inputMatrix);
-        inputMatrix = mover.bajar(inputMatrix);
-        if (inputMatrix != tmpMatrix) {
+        boolean izquierda = mover.izquierda();
+        boolean arriba = mover.arriba();
+        boolean derecha = mover.derecha();
+        boolean abajo = mover.abajo();
+        if (izquierda || arriba || derecha || abajo) {
             salida = true;
         }
-
         return salida;
     }
-
 }

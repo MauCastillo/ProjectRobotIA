@@ -13,167 +13,253 @@ import java.util.ArrayList;
  */
 public class Movimientos {
 
-    private Coordenada ubicacion = new Coordenada();
-    private ArrayList<Coordenada> recorrido;
+    public ArrayList<Coordenada> recorrido;
+    Bloque[][] matrix;
 
-    public Movimientos(Coordenada init) {
+    public Movimientos(Coordenada init, Bloque[][] matrix) {
+
         this.recorrido = new ArrayList();
-        this.ubicacion = init;
+        this.matrix = new Bloque[10][10];
+        this.matrix = matrix;
         recorrido.add(init);
 
     }
 
-    public Bloque[][] subir(Bloque[][] entrada) {
-        /*Donde xy de entrada es al pocision del robot en ese momento*/
-        //Verifico la disponibilidad de espacion
-        int x = ubicacion.getIniciox();
-        int y = ubicacion.getInicioy();
-        Bloque[][] salida = new Bloque[10][10];
-        salida = entrada;
-        if (y <= 10 && y > 0) {
-            int subida = y - 1;
-            Bloque llegada = entrada[x][subida];
+    public boolean izquierda() {
 
-            System.out.println("Logica.Movimientos.subir() " + llegada.getContenido());
+        for (int i = 0; i < recorrido.size(); i++) {
+            System.out.println("Logica.Movimientos.estubeHay()" + " x = " + recorrido.get(i).getIniciox() + " y = " + recorrido.get(i).getInicioy() + "Tamaño " + recorrido.size());
 
-            if (llegada.getContenido() != 1 && llegada.getUltimoMovimiento() < 2 && estube(x, subida)) {
-                salida[x][subida].setContenido(2);
-                salida[x][y].setContenido(0);
-                salida[x][subida].setUltimoMovimiento(2);
-                ubicacion.setIniciox(x);
-                ubicacion.setInicioy(subida);
-                //Agrego al recorrido
-                Coordenada c = new Coordenada(x, subida);
-                recorrido.add(c);
-            }
         }
-        print(salida);
+        int x = 0;
+        int y = 0;
+        boolean estubehay = false;
+        Coordenada ubicacion = new Coordenada();
+        boolean salida = false;
+        boolean desbordamiento = false;
+        int posicion = recorrido.size() - 1;
+        boolean compruebarMovimiento = false;
+        boolean muro = false;
+        Coordenada ultima = recorrido.get(posicion);
+        x = ultima.getIniciox();
+        y = ultima.getInicioy();
+        Bloque partida = matrix[x][y];
+        Bloque llegada = new Bloque();
+
+        //Condicion que prueba si ya se aplico esta operacion
+        if (x > 0) {
+            desbordamiento = true;
+            llegada = matrix[(x - 1)][y];
+            ubicacion.setIniciox((x - 1));
+            ubicacion.setInicioy(y);
+            estubehay = estubeHay(ubicacion);
+        }
+        if (partida.getUltimoMovimiento() == 0) {
+            compruebarMovimiento = true;
+        }
+        //Condicion para probar que no es un muro
+        if (llegada.getContenido() != 1) {
+            muro = true;
+        }
+
+        //Condicion para evitar desbordamiento
+        System.out.println("Logica.Movimientos.izquierda() " + desbordamiento + compruebarMovimiento + muro + !estubehay);
+        if (desbordamiento && compruebarMovimiento && muro && !estubehay) {
+            partida.setUltimoMovimiento(1);
+            partida.setContenido(0);
+            llegada.setContenido(2);
+            matrix[x][y] = partida;
+            matrix[(x - 1)][y] = llegada;
+            recorrido.add(ubicacion);
+            salida = true;
+            print();
+        }
+
         return salida;
     }
 
-    public Bloque[][] bajar(Bloque[][] entrada) {
-        /*Donde xy de entrada es al pocision del robot en ese momento*/
-        int x = ubicacion.getIniciox();
-        int y = ubicacion.getInicioy();
-        //Verifico la disponibilidad de espacion
-        Bloque[][] salida = new Bloque[10][10];
-        salida = entrada;
-        System.out.println("i y " + y);
-        if (y < 10 && y >= 0) {
-            //impido que se desvorde
-            int bajada = y + 1;
-            Bloque llegada = entrada[x][bajada];
-            System.out.println("Logica.Movimientos.bajar() " + llegada.getContenido());
-            if (llegada.getContenido() != 1 && llegada.getUltimoMovimiento() < 4 && estube(x, bajada)) {
-                salida[x][bajada].setContenido(2);
-                salida[x][y].setContenido(0);
-                salida[x][bajada].setUltimoMovimiento(4);
-                ubicacion.setIniciox(x);
-                ubicacion.setInicioy(bajada);
-                //Agrego al recorrido
-                Coordenada c = new Coordenada(x, bajada);
-                recorrido.add(c);
-            }
+    public boolean arriba() {
+        int x = 0;
+        int y = 0;
+        Coordenada ubicacion = new Coordenada();
+
+        boolean salida = false;
+        boolean estubehay = false;
+        boolean desbordamiento = false;
+        int posicion = recorrido.size() - 1;
+        boolean compruebarMovimiento = false;
+        boolean muro = false;
+        Coordenada ultima = recorrido.get(posicion);
+        x = ultima.getIniciox();
+        y = ultima.getInicioy();
+        Bloque partida = matrix[x][y];
+        Bloque llegada = new Bloque();
+//Control de desbordamieto
+        if (y > 0) {
+            llegada = matrix[(x)][y - 1];
+            desbordamiento = true;
+            ubicacion.setIniciox(x);
+            ubicacion.setInicioy((y - 1));
+            estubehay = estubeHay(ubicacion);
         }
-        print(salida);
+        //Condicion que prueba si ya se aplico esta operacion
+        if (partida.getUltimoMovimiento() < 2) {
+            compruebarMovimiento = true;
+        }
+        //Condicion para probar que no es un muro
+        if (llegada.getContenido() != 1) {
+            muro = true;
+        }
+        System.out.println("Logica.Movimientos.arriba() " + desbordamiento + compruebarMovimiento + muro + !estubehay);
+        if (desbordamiento && compruebarMovimiento && muro && !estubehay) {
+            partida.setUltimoMovimiento(2);
+            partida.setContenido(0);
+            llegada.setContenido(2);
+            matrix[x][y] = partida;
+            matrix[(x)][y - 1] = llegada;
+            recorrido.add(ubicacion);
+            salida = true;
+
+        }
+
         return salida;
     }
 
-    public Bloque[][] derecha(Bloque[][] entrada) {
-        /*Donde xy de entrada es al pocision del robot en ese momento*/
-        int x = ubicacion.getIniciox();
-        int y = ubicacion.getInicioy();
-        //Verifico la disponibilidad de espacion
-        Bloque[][] salida = new Bloque[10][10];
-        salida = entrada;
-        if (x < 10 && x >= 0) {
-            //impido que se desvorde
-            int derecha = x + 1;
-            Bloque llegada = entrada[derecha][y];
-            System.out.println("Logica.Movimientos.derecha() " + llegada.getContenido());
-            if (llegada.getContenido() != 1 && llegada.getUltimoMovimiento() < 3 && estube(derecha, y)) {
-                salida[derecha][y].setContenido(2);
-                salida[x][y].setContenido(0);
-                salida[derecha][y].setUltimoMovimiento(3);
-                ubicacion.setIniciox(derecha);
-                ubicacion.setInicioy(y);
-                //Agrego al recorrido
-                Coordenada c = new Coordenada(derecha, y);
-                recorrido.add(c);
-            }
+    public boolean derecha() {
+        int x = 0;
+        int y = 0;
+        Coordenada ubicacion = new Coordenada();
+        boolean salida = false;
+        boolean estubehay = false;
+        boolean desbordamiento = false;
+        int posicion = recorrido.size() - 1;
+        boolean compruebarMovimiento = false;
+        boolean muro = false;
+        Coordenada ultima = recorrido.get(posicion);
+        x = ultima.getIniciox();
+        y = ultima.getInicioy();
+        Bloque partida = matrix[x][y];
+        Bloque llegada = new Bloque();
+        if (x < 9) {
+            llegada = matrix[(x + 1)][y];
+            desbordamiento = true;
+            ubicacion.setIniciox((x + 1));
+            ubicacion.setInicioy(y);
+            estubehay = estubeHay(ubicacion);
         }
-        print(salida);
+
+        //Condicion que prueba si ya se aplico esta operacion
+        if (partida.getUltimoMovimiento() < 3) {
+            compruebarMovimiento = true;
+        }
+        //Condicion para probar que no es un muro
+        if (llegada.getContenido() != 1) {
+            muro = true;
+        }
+        //Condicion para evitar desbordamiento
+        System.out.println("Logica.Movimientos.derecha() " + desbordamiento + compruebarMovimiento + muro + !estubehay);
+        if (desbordamiento && compruebarMovimiento && muro && !estubehay) {
+            partida.setUltimoMovimiento(3);
+            partida.setContenido(0);
+            llegada.setContenido(2);
+            matrix[x][y] = partida;
+            matrix[(x + 1)][y] = llegada;
+            recorrido.add(ubicacion);
+            salida = true;
+            print();
+        }
+
         return salida;
     }
 
-    public Bloque[][] izquierda(Bloque[][] entrada) {
-        /*Donde xy de entrada es al pocision del robot en ese momento*/
-        int x = ubicacion.getIniciox();
-        int y = ubicacion.getInicioy();
+    public boolean abajo() {
+        int x = 0;
+        int y = 0;
+        Coordenada ubicacion = new Coordenada();
+        boolean desbordamiento = false;
+        boolean salida = false;
+        int posicion = recorrido.size() - 1;
+        boolean compruebarMovimiento = false;
+        boolean muro = false;
+        boolean estubehay = false;
+        Coordenada ultima = recorrido.get(posicion);
+        x = ultima.getIniciox();
+        y = ultima.getInicioy();
+        Bloque partida = matrix[x][y];
+        Bloque llegada = new Bloque();
 
-        //Verifico la disponibilidad de espacion
-        Bloque[][] salida;
-        salida = entrada;
-
-        if (x <= 10 && x > 0) {
-            //impido que se desvorde
-            int izquierda = x - 1;
-            Bloque llegada = entrada[izquierda][y];
-            System.out.println("Logica.Movimientos.izquierda()" + llegada.getContenido());
-            if (llegada.getContenido() != 1 && llegada.getUltimoMovimiento() < 1 && estube(izquierda, y)) {
-                System.out.println("Logica.Movimientos.izquierda()");
-                salida[izquierda][y].setContenido(2);
-                salida[x][y].setContenido(0);
-                salida[izquierda][y].setUltimoMovimiento(1);
-                ubicacion.setIniciox(izquierda);
-                ubicacion.setInicioy(y);
-                //Agrego al recorrido
-                Coordenada c = new Coordenada(izquierda, y);
-                recorrido.add(c);
-            }
+        //Condicion que prueba si ya se aplico esta operacion
+        if (partida.getUltimoMovimiento() < 4) {
+            compruebarMovimiento = true;
         }
-        print(salida);
+        //Control de desbordamieto
+        if (y < 9) {
+            desbordamiento = true;
+            llegada = matrix[(x)][y + 1];
+            ubicacion.setIniciox(x);
+            ubicacion.setInicioy((y + 1));
+            estubehay = estubeHay(ubicacion);
+        }
+        //Condicion para probar que no es un muro
+        if (llegada.getContenido() != 1) {
+            muro = true;
+        }
+        //Condicion para evitar desbordamiento
+        System.out.println("Logica.Movimientos.abajo() " + desbordamiento + compruebarMovimiento + muro + !estubehay);
+        if (desbordamiento && compruebarMovimiento && muro && !estubehay) {
+            partida.setUltimoMovimiento(1);
+            partida.setContenido(0);
+            llegada.setContenido(2);
+            matrix[x][y] = partida;
+            matrix[(x)][y + 1] = llegada;
+            recorrido.add(ubicacion);
+            salida = true;
+            print();
+        }
+
         return salida;
     }
 
-    public void print(Bloque[][] matriz) {
-        System.out.println("Logica.Movimientos.print()");
-        for (int i = 0; i < matriz.length; i++) {
+    void print() {
+        //Columnas}
+        System.out.println("Pintando Matrix");
+        for (int i = 0; i < 10; i++) {
             //Filas
-            for (int j = 0; j < matriz.length; j++) {
-                System.out.print(" " + matriz[j][i].getContenido() + " |");
+            for (int j = 0; j < 10; j++) {
+                System.out.print(" " + matrix[j][i].getContenido() + " |");
 
             }
             System.out.println("-");
         }
     }
 
-    boolean estube(int x, int y) {
-        boolean output = false;
+    void clear() {
+        //Columnas}
+        System.out.println("Limpiando Matrix");
+        for (int i = 0; i < 10; i++) {
+            //Filas
+            for (int j = 0; j < 10; j++) {
+                matrix[i][j].setUltimoMovimiento(0); 
+            }
+        }
+        Coordenada nuevoPrinciopio = new Coordenada();
+        int ultimo = recorrido.size() -1;
+        nuevoPrinciopio = recorrido.get(ultimo);
+        recorrido.clear();
+        recorrido.add(nuevoPrinciopio);
+        System.out.println("-");
+    }
+
+    private boolean estubeHay(Coordenada entrada) {
+        boolean salida = false;
+        int x = entrada.getIniciox();
+        int y = entrada.getInicioy();
         for (int i = 0; i < recorrido.size(); i++) {
             if (x == recorrido.get(i).getIniciox() && y == recorrido.get(i).getInicioy()) {
-                output = true;
+                salida = true;
             }
+            System.out.println("Logica.Movimientos.estubeHay()" + " x = " + recorrido.get(i).getIniciox() + " y = " + recorrido.get(i).getInicioy() + "Tamaño " + recorrido.size());
         }
-        return !output;
+        return salida;
     }
-
-    public Coordenada getUbicacion() {
-        return ubicacion;
-    }
-
-    public ArrayList<Coordenada> getRecorrido() {
-        return recorrido;
-    }
-
-    Bloque[][] clear(Bloque[][] matriz) {
-        Bloque[][] matriztmp = matriz;
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 10; j++) {
-                matriztmp[i][j].setUltimoMovimiento(0);
-            }
-        }
-        return matriztmp;
-    }
-
 }

@@ -28,7 +28,7 @@ public class ProjectIA {
         /*Prueba de lectura del archivo plano por consola*/
         /*
         Leer lectura = new Leer();
-        Bloque[][] matriz = lectura.ReadFile();
+        Bloque[][] matrix = lectura.ReadFile();
         //Columnas}
         System.out.println("Pintando Matriz");
         for (int i = 0; i < matriz.length; i++) {
