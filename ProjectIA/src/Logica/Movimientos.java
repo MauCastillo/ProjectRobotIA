@@ -6,6 +6,7 @@
 package Logica;
 
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -13,14 +14,15 @@ import java.util.ArrayList;
  */
 public class Movimientos {
 
-    private int premios = 0;
-    private int escudo = 0;
+    private int premios;
+    private int escudo;
     public ArrayList<ArrayList<Coordenada>> busqueda = new ArrayList<>();//#Este vector almacena todos los recorridos
     public ArrayList<Coordenada> recorrido;
     Bloque[][] matrix;
 
     public Movimientos(Coordenada init, Bloque[][] matrix) {
-
+        premios = 0;
+        escudo = 0;
         this.recorrido = new ArrayList();
         this.matrix = new Bloque[10][10];
         this.matrix = matrix;
@@ -70,16 +72,15 @@ public class Movimientos {
         if (desbordamiento && compruebarMovimiento && muro && !estubehay) {
             partida.setUltimoMovimiento(1);
             partida.setContenido(0);
-            llegada.setContenido(2);
             //#Compruebo si hay un objeto en ese punto
             ObtencionObjetos(llegada);
+            llegada.setContenido(2);
             matrix[x][y] = partida;
             matrix[(x - 1)][y] = llegada;
             recorrido.add(ubicacion);
             salida = true;
             print();
         }
-
         return salida;
     }
 
@@ -87,7 +88,6 @@ public class Movimientos {
         int x = 0;
         int y = 0;
         Coordenada ubicacion = new Coordenada();
-
         boolean salida = false;
         boolean estubehay = false;
         boolean desbordamiento = false;
@@ -119,9 +119,9 @@ public class Movimientos {
         if (desbordamiento && compruebarMovimiento && muro && !estubehay) {
             partida.setUltimoMovimiento(2);
             partida.setContenido(0);
-            llegada.setContenido(2);
             //#Compruebo si hay un objeto en ese punto
             ObtencionObjetos(llegada);
+            llegada.setContenido(2);
             matrix[x][y] = partida;
             matrix[(x)][y - 1] = llegada;
             recorrido.add(ubicacion);
@@ -168,9 +168,11 @@ public class Movimientos {
         if (desbordamiento && compruebarMovimiento && muro && !estubehay) {
             partida.setUltimoMovimiento(3);
             partida.setContenido(0);
-            llegada.setContenido(2);
             //#Compruebo si hay un objeto en ese punto
             ObtencionObjetos(llegada);
+            //Pongo robot en la pocision de llegada
+            llegada.setContenido(2);
+
             matrix[x][y] = partida;
             matrix[(x + 1)][y] = llegada;
             recorrido.add(ubicacion);
@@ -218,9 +220,9 @@ public class Movimientos {
         if (desbordamiento && compruebarMovimiento && muro && !estubehay) {
             partida.setUltimoMovimiento(1);
             partida.setContenido(0);
-            llegada.setContenido(2);
             //#Compruebo si hay un objeto en ese punto
             ObtencionObjetos(llegada);
+            llegada.setContenido(2);
             matrix[x][y] = partida;
             matrix[(x)][y + 1] = llegada;
             recorrido.add(ubicacion);
@@ -262,6 +264,7 @@ public class Movimientos {
         recorrido.add(nuevoPrinciopio);
         System.out.println("-");
     }
+//Pregunta si ha estado ya en esa casilla
 
     private boolean estubeHay(Coordenada entrada) {
         boolean salida = false;
@@ -271,6 +274,9 @@ public class Movimientos {
             if (x == recorrido.get(i).getIniciox() && y == recorrido.get(i).getInicioy()) {
                 salida = true;
             }
+            if (9 == recorrido.get(i).getIniciox() && 0 == recorrido.get(i).getInicioy()) {
+                JOptionPane.showConfirmDialog(null, i);
+            }
             System.out.println("Logica.Movimientos.estubeHay()" + " x = " + recorrido.get(i).getIniciox() + " y = " + recorrido.get(i).getInicioy() + "Tamaño " + recorrido.size());
         }
         return salida;
@@ -279,12 +285,11 @@ public class Movimientos {
     boolean ObtencionObjetos(Bloque intro) {
         boolean salida = false;
         if (intro.getContenido() == 6) {
-            premios++;
+            premios += 1;
             salida = true;
-
         }
         if (intro.getContenido() == 3) {
-            escudo++;
+            escudo += 1;
             salida = true;
         }
 
@@ -310,5 +315,5 @@ public class Movimientos {
     public Bloque[][] getMatrix() {
         return matrix;
     }
-    
+
 }

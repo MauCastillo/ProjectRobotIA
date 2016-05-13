@@ -21,14 +21,12 @@ public class Algorithimo {
     private Coordenada inicio;
     private Movimientos mover;
     UsuarioVisual userGrafica;
-    
 
-    public Algorithimo(Bloque[][] matrix, Coordenada iniCoordenada,UsuarioVisual graficauser) {
+    public Algorithimo(Bloque[][] matrix, Coordenada iniCoordenada, UsuarioVisual graficauser) {
         this.matrix = matrix;
         this.inicio = iniCoordenada;
         this.userGrafica = graficauser;
         mover = new Movimientos(inicio, matrix);
-
 
     }
 
@@ -36,16 +34,23 @@ public class Algorithimo {
         ArrayList<Bloque> salida = new ArrayList<>();
         boolean movimientos = false;
         /*Este ciclo prueba si ya no hay mas movimientos*/
-        int numeroPremios = mover.getPremios();
-        while(numeroPremios != 2){
-        do {
+        int numeroPremios = 0;
+        
+       /* while (numeroPremios != 2) {
+            do {*/
                 movimientos = recorrido();
-                userGrafica.creacionBotones(matrix);        
-        } while (movimientos);
-        mover.clear();
-        }
-        System.out.println("--------------------------Nomeros de Objetivos ------------------- " +numeroPremios);
-        JOptionPane.showMessageDialog(userGrafica, this, "Ganaste", numeroPremios, IcoRecurso.ICON_GANADOR);
+                userGrafica.creacionBotones(matrix);
+                //#Pregunta si el numero de elementos encontrados es el completo
+                //y Termina la ejecucion
+                numeroPremios = mover.getPremios();
+             if(!movimientos){
+                 mover.clear();
+             }
+           /* } while (!movimientos && numeroPremios != 2);
+            mover.clear();
+        }*/
+
+       // JOptionPane.showMessageDialog(userGrafica, this, "Ganaste", numeroPremios, IcoRecurso.ICON_GANADOR);
         return salida;
     }
 //Esta funcion sigue la secuencia y ademas retorno si hubo cambios
