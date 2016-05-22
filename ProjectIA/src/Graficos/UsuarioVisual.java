@@ -12,6 +12,8 @@ import Logica.Algorithimo_profundidad;
 import Logica.Amplitud;
 import java.awt.GridLayout;
 import Recursos.IcoRecurso;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
@@ -135,7 +137,7 @@ public class UsuarioVisual extends javax.swing.JFrame {
             }
         });
 
-        jCseleccion.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Informada", "No informada" }));
+        jCseleccion.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Profundida", "Ampitud", "Costo Uniforme", "Avare ", "A*" }));
         jCseleccion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCseleccionActionPerformed(evt);
@@ -239,12 +241,25 @@ public class UsuarioVisual extends javax.swing.JFrame {
     }//GEN-LAST:event_jCseleccionActionPerformed
 
     private void jBbuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBbuscarActionPerformed
-
-        // TODO add your handling code here:
-        // buscar.BusquedaProfundida();
-        Amplitud amplitud = new Amplitud(matriz, init);
-        amplitud.BusquedaAmplitud();
-        // mover.bajar(matriz,lectura.inicio.getIniciox(),lectura.inicio.getInicioy());}
+        int algoritmo = 0;
+        if (jCseleccion.getSelectedIndex() == 0) {
+            //Profundida
+            buscar.BusquedaProfundida();
+        }
+        if (jCseleccion.getSelectedIndex() == 1) {
+            //Amplitud
+            Amplitud amplitud = new Amplitud(matriz, init);
+            amplitud.BusquedaAmplitud();
+        }
+        if (jCseleccion.getSelectedIndex() == 1) {
+            //Costo Uniforme
+        }
+        if (jCseleccion.getSelectedIndex() == 1) {
+            //Avara
+        }
+        if (jCseleccion.getSelectedIndex() == 1) {
+            //A*
+        }
 
     }//GEN-LAST:event_jBbuscarActionPerformed
 
