@@ -8,7 +8,7 @@ package Graficos;
 import Logica.Bloque;
 import Logica.Coordenada;
 import Archivo.Leer;
-import Logica.Algorithimo_profundida;
+import Logica.Algorithimo_profundidad;
 import Logica.Amplitud;
 import java.awt.GridLayout;
 import Recursos.IcoRecurso;
@@ -28,7 +28,7 @@ public class UsuarioVisual extends javax.swing.JFrame {
     Bloque[][] matriz;
     Coordenada inicia = new Coordenada();
     Bloque init = new Bloque();
-    Algorithimo_profundida buscar;
+    Algorithimo_profundidad buscar;
 
     public UsuarioVisual() {
         initComponents();
@@ -39,7 +39,7 @@ public class UsuarioVisual extends javax.swing.JFrame {
         this.creacionBotones(matriz);
         this.repaint();
         this.setSize(450, 491);
-        buscar = new Algorithimo_profundida(matriz, inicia, this);
+        buscar = new Algorithimo_profundidad(matriz, inicia, this);
         //setResizable(false);
     }
 

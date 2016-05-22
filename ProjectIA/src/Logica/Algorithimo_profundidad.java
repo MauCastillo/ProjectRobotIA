@@ -14,7 +14,7 @@ import javax.swing.JOptionPane;
  *
  * @author Soporte
  */
-public class Algorithimo_profundida {
+public class Algorithimo_profundidad {
 
     private ArrayList<Bloque> visitado;
     private Bloque[][] matrix;
@@ -22,7 +22,7 @@ public class Algorithimo_profundida {
     private Movimientos mover;
     UsuarioVisual userGrafica;
 
-    public Algorithimo_profundida(Bloque[][] matrix, Coordenada iniCoordenada, UsuarioVisual graficauser) {
+    public Algorithimo_profundidad(Bloque[][] matrix, Coordenada iniCoordenada, UsuarioVisual graficauser) {
         this.matrix = matrix;
         this.inicio = iniCoordenada;
         this.userGrafica = graficauser;
