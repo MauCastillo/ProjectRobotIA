@@ -61,13 +61,20 @@ public class Profundida {
         Bloque izq = new Bloque();
         int hice = 0;
         //Comprueba la izquierda
-        izq = izquierda(entrada);
+
+        //Comprueba la arriba
+        izq = arriba(entrada);
         if (izq != null && hice == 0) {
             cola.push(izq);
             hice = 1;
         }
-        //Comprueba la arriba
-        izq = arriba(entrada);
+         //Comprueba la abajo
+        izq = bajo(entrada);
+        if (izq != null && hice == 0) {
+            cola.push(izq);
+            hice = 1;
+        }
+        izq = izquierda(entrada);
         if (izq != null && hice == 0) {
             cola.push(izq);
             hice = 1;
@@ -78,13 +85,8 @@ public class Profundida {
             cola.push(izq);
             hice = 1;
         }
-
-        //Comprueba la abajo
-        izq = bajo(entrada);
-        if (izq != null && hice == 0) {
-            cola.push(izq);
-            hice = 1;
-        }
+        
+       
     }
 
     Bloque izquierda(Bloque entrada) {
