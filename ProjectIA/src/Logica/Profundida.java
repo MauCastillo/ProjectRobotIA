@@ -35,7 +35,7 @@ public class Profundida {
     public ArrayList<Bloque> BusquedaProfundida() {
         ArrayList<Bloque> salida = new ArrayList<>();
         cola.push(stdinicial);
-        while (premios != 2) {
+        while (premios != 1) {
             if(cola.vacio()){
                 System.out.println("Error");
             }
@@ -48,28 +48,41 @@ public class Profundida {
         }
         return salida;
     }
+    
+    boolean estubeHay(Bloque nodo){
+        for (int i = 0; i < solucion.size(); i++) {
+            Bloque[] matrix1 = matrix[i];
+            
+        }
+        return true;
+    }
 
     void expandir(Bloque entrada) {
         Bloque izq = new Bloque();
+        int hice = 0;
         //Comprueba la izquierda
         izq = izquierda(entrada);
-        if (izq != null) {
+        if (izq != null && hice == 0) {
             cola.push(izq);
+            hice = 1;
         }
         //Comprueba la derecha
         izq = derecha(entrada);
-        if (izq != null) {
+        if (izq != null && hice == 0) {
             cola.push(izq);
+            hice = 1;
         }
         //Comprueba la arriba
         izq = arriba(entrada);
-        if (izq != null) {
+        if (izq != null && hice == 0) {
             cola.push(izq);
+            hice = 1;
         }
         //Comprueba la abajo
         izq = bajo(entrada);
-        if (izq != null) {
+        if (izq != null && hice == 0) {
             cola.push(izq);
+            hice = 1;
         }
     }
 
@@ -165,6 +178,8 @@ public class Profundida {
             }
         }
         return camino;
+        
+        
     }
 
     void print(ArrayList<Bloque> n) {
