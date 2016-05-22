@@ -12,7 +12,7 @@ import javax.swing.JOptionPane;
  *
  * @author mao
  */
-public class Amplitud {
+public class Profundida {
 
     int contadorid;
     Bloque[][] matrix;
@@ -22,7 +22,7 @@ public class Amplitud {
     private ArrayList<Bloque> solucion;
     private Bloque stdinicial;
 
-    public Amplitud(Bloque[][] matrix, Bloque Inicial) {
+    public Profundida(Bloque[][] matrix, Bloque Inicial) {
         this.matrix = matrix;
         this.solucion = new ArrayList<>();
         this.cola = new Cola();
@@ -32,30 +32,19 @@ public class Amplitud {
         this.contadorid = 0;
     }
 
-    public ArrayList<Bloque> BusquedaAmplitud() {
+    public ArrayList<Bloque> BusquedaProfundida() {
         ArrayList<Bloque> salida = new ArrayList<>();
+        cola.push(stdinicial);
         while (premios != 2) {
-            if (cola.vacio()) {
+            if(cola.vacio()){
                 System.out.println("Error");
             }
-            Bloque n = new Bloque();
-            n = cola.pop();
-            if (ObtencionObjetos(n)) {
-                 System.out.println("matrix" +matrix[9][9].getContenido() +"coordenada x" +matrix[9][9].getX()  +"coordenada y"+matrix[9][9].getY() );
-                if (n.x == 9 && n.y == 9) {
-                    JOptionPane.showMessageDialog(null, "encontro el ultimo");
-                   
-                }
-                JOptionPane.showMessageDialog(null, "Winner");
-                cola.clear();
-                cola.push(n);
-                print(solucion);
+            Bloque n = cola.pop();
+            if(ObtencionObjetos(n)){
+                System.out.println("Encontro Un Objeto");
             }
-            if (n.getContenido() != 1) {
-                expandir(n);
-                System.out.println("Encontro Algo en la pocision " + " X =  " + n.x + " Y = " + n.y);
-                salida.add(n);
-            }
+            System.out.println(" X = " + n.x + " Y " + n.y );
+            expandir(n);
         }
         return salida;
     }

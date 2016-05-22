@@ -8,12 +8,10 @@ package Graficos;
 import Logica.Bloque;
 import Logica.Coordenada;
 import Archivo.Leer;
-import Logica.Algorithimo_profundidad;
 import Logica.Amplitud;
+import Logica.Profundida;
 import java.awt.GridLayout;
 import Recursos.IcoRecurso;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
@@ -30,8 +28,6 @@ public class UsuarioVisual extends javax.swing.JFrame {
     Bloque[][] matriz;
     Coordenada inicia = new Coordenada();
     Bloque init = new Bloque();
-    Algorithimo_profundidad buscar;
-
     public UsuarioVisual() {
         initComponents();
         //Funcines para el Inicio del Mapa
@@ -41,7 +37,6 @@ public class UsuarioVisual extends javax.swing.JFrame {
         this.creacionBotones(matriz);
         this.repaint();
         this.setSize(450, 491);
-        buscar = new Algorithimo_profundidad(matriz, inicia, this);
         //setResizable(false);
     }
 
@@ -243,8 +238,9 @@ public class UsuarioVisual extends javax.swing.JFrame {
     private void jBbuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBbuscarActionPerformed
         int algoritmo = 0;
         if (jCseleccion.getSelectedIndex() == 0) {
-            //Profundida
-            buscar.BusquedaProfundida();
+            Profundida amplitud = new Profundida(matriz, init);
+            amplitud.BusquedaProfundida();
+
         }
         if (jCseleccion.getSelectedIndex() == 1) {
             //Amplitud
