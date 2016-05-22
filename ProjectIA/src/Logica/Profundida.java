@@ -36,23 +36,23 @@ public class Profundida {
         ArrayList<Bloque> salida = new ArrayList<>();
         cola.push(stdinicial);
         while (premios != 1) {
-            if(cola.vacio()){
+            if (cola.vacio()) {
                 System.out.println("Error");
             }
             Bloque n = cola.pop();
-            if(ObtencionObjetos(n)){
+            if (ObtencionObjetos(n)) {
                 System.out.println("Encontro Un Objeto");
             }
-            System.out.println(" X = " + n.x + " Y " + n.y );
+            System.out.println(" X = " + n.x + " Y " + n.y);
             expandir(n);
         }
         return salida;
     }
-    
-    boolean estubeHay(Bloque nodo){
+
+    boolean estubeHay(Bloque nodo) {
         for (int i = 0; i < solucion.size(); i++) {
             Bloque[] matrix1 = matrix[i];
-            
+
         }
         return true;
     }
@@ -66,18 +66,19 @@ public class Profundida {
             cola.push(izq);
             hice = 1;
         }
-        //Comprueba la derecha
-        izq = derecha(entrada);
-        if (izq != null && hice == 0) {
-            cola.push(izq);
-            hice = 1;
-        }
         //Comprueba la arriba
         izq = arriba(entrada);
         if (izq != null && hice == 0) {
             cola.push(izq);
             hice = 1;
         }
+        //Comprueba la derecha
+        izq = derecha(entrada);
+        if (izq != null && hice == 0) {
+            cola.push(izq);
+            hice = 1;
+        }
+
         //Comprueba la abajo
         izq = bajo(entrada);
         if (izq != null && hice == 0) {
@@ -178,8 +179,7 @@ public class Profundida {
             }
         }
         return camino;
-        
-        
+
     }
 
     void print(ArrayList<Bloque> n) {
