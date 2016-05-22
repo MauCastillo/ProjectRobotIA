@@ -240,7 +240,6 @@ public class UsuarioVisual extends javax.swing.JFrame {
         if (jCseleccion.getSelectedIndex() == 0) {
             Profundida amplitud = new Profundida(matriz, init);
             amplitud.BusquedaProfundida();
-
         }
         if (jCseleccion.getSelectedIndex() == 1) {
             //Amplitud
