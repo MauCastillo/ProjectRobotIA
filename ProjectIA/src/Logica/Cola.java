@@ -13,7 +13,7 @@ import java.util.ArrayList;
  */
 public class Cola {
 
-    ArrayList<Bloque> cola = new ArrayList<>();
+    private ArrayList<Bloque> cola = new ArrayList<>();
 
     void push(Bloque a) {
         Bloque nodo;
@@ -33,6 +33,10 @@ public class Cola {
         }
 
         return nodo;
+    }
+
+    void clear() {
+        cola.clear();
     }
 
     boolean vacio() {

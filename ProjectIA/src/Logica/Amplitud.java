@@ -14,6 +14,7 @@ import javax.swing.JOptionPane;
  */
 public class Amplitud {
 
+    int contadorid;
     Bloque[][] matrix;
     private int premios;
     private int escudo;
@@ -28,24 +29,32 @@ public class Amplitud {
         this.stdinicial = new Bloque();
         this.stdinicial = Inicial;
         this.cola.push(Inicial);
+        this.contadorid = 0;
     }
 
     public ArrayList<Bloque> BusquedaAmplitud() {
         ArrayList<Bloque> salida = new ArrayList<>();
-        while (premios < 2) {
+        while (premios != 2) {
             if (cola.vacio()) {
                 System.out.println("Error");
             }
             Bloque n = new Bloque();
             n = cola.pop();
             if (ObtencionObjetos(n)) {
-                buscardolucion(n);
-                printf(solucion);
-                JOptionPane.showMessageDialog(null, "Encontro Algo");
+                 System.out.println("matrix" +matrix[9][9].getContenido() +"coordenada x" +matrix[9][9].getX()  +"coordenada y"+matrix[9][9].getY() );
+                if (n.x == 9 && n.y == 9) {
+                    JOptionPane.showMessageDialog(null, "encontro el ultimo");
+                   
+                }
+                JOptionPane.showMessageDialog(null, "Winner");
+                cola.clear();
+                cola.push(n);
+                print(solucion);
             }
             if (n.getContenido() != 1) {
                 expandir(n);
-                solucion.add(n);
+                System.out.println("Encontro Algo en la pocision " + " X =  " + n.x + " Y = " + n.y);
+                salida.add(n);
             }
         }
         return salida;
@@ -77,10 +86,12 @@ public class Amplitud {
 
     Bloque izquierda(Bloque entrada) {
         Bloque salida = new Bloque();
+        contadorid++;
         salida = null;
-        if (entrada.x > 0 && entrada.getContenido() != 1) {
+        if (entrada.x != 0) {
             salida = matrix[(entrada.x - 1)][entrada.y];
             salida.setPadre(entrada.getIdentificador());
+            salida.setIdentificador(contadorid);
         }
         return salida;
     }
@@ -90,9 +101,10 @@ public class Amplitud {
         p = entrada;
         Bloque salida = new Bloque();
         salida = null;
-        if (entrada.x < 9 && entrada.getContenido() != 1) {
+        if (entrada.x != 9) {
             salida = matrix[(entrada.x + 1)][entrada.y];
             salida.setPadre(entrada.getIdentificador());
+            salida.setIdentificador(contadorid);
         }
         return salida;
     }
@@ -100,9 +112,10 @@ public class Amplitud {
     Bloque arriba(Bloque entrada) {
         Bloque salida = new Bloque();
         salida = null;
-        if (entrada.y > 0 && entrada.getContenido() != 1) {
+        if (entrada.y != 0) {
             salida = matrix[(entrada.x)][entrada.y - 1];
             salida.setPadre(entrada.getIdentificador());
+            salida.setIdentificador(contadorid);
         }
         return salida;
     }
@@ -110,22 +123,26 @@ public class Amplitud {
     Bloque bajo(Bloque entrada) {
         Bloque salida = new Bloque();
         salida = null;
-        if (entrada.y < 9 && entrada.getContenido() != 1) {
+        if (entrada.y != 10) {
             salida = matrix[(entrada.x)][entrada.y + 1];
             salida.setPadre(entrada.getIdentificador());
+            salida.setIdentificador(contadorid);
         }
         return salida;
     }
+//Encuentra el objeto
 
     boolean ObtencionObjetos(Bloque intro) {
         boolean salida = false;
         if (intro.getContenido() == 6) {
             premios += 1;
+            matrix[intro.x][intro.y].setContenido(0);
             salida = true;
 
         }
         if (intro.getContenido() == 3) {
             escudo += 1;
+            matrix[intro.x][intro.y].setContenido(0);
             salida = true;
         }
 
@@ -142,7 +159,7 @@ public class Amplitud {
         return -1;
     }
 
-    public ArrayList<Bloque> buscardolucion(Bloque nodo) {
+    public ArrayList<Bloque> buscarSolucion(Bloque nodo) {
         Bloque fin = new Bloque();
         Bloque analizis = new Bloque();
         analizis = nodo;
@@ -157,17 +174,14 @@ public class Amplitud {
             if (ubicacion != -1) {
                 camino.add(solucion.get(ubicacion));
             }
-
         }
-        printf(camino);
         return camino;
     }
 
-    void printf(ArrayList<Bloque> n) {
-        System.out.println("Logica.Amplitud.print() camino encontrado");
+    void print(ArrayList<Bloque> n) {
+        // System.out.println("Logica.Amplitud.print() camino encontrado");
         for (int i = 0; i < n.size(); i++) {
             System.out.println("Logica.Amplitud.BusquedaAmplitud() " + " x = " + n.get(i).x + " y = " + n.get(i).y + " padre " + n.get(i).getIdentificador());
-
         }
 
     }
