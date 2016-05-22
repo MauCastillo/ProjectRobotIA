@@ -21,15 +21,18 @@ import javax.swing.JOptionPane;
  * @author Mauro
  */
 public class Leer {
-
+    
     public Coordenada inicio;
+    public Bloque init;
     int contadorErrores = 0;
-
+    int contador = 0;
+    
     public Bloque[][] ReadFile() {
         File archivo;
         FileReader fr = null;
         BufferedReader br;
         Bloque newBloque;
+        init = new Bloque();
         /*Creacion de matriz de bloques*/
         Bloque[][] matriz = new Bloque[10][10];
         try {
@@ -53,19 +56,29 @@ public class Leer {
                     //Almaceno el Valor en la Matriz
                     if (primero == 2) {
                         inicio = new Coordenada(i, columna);
+                        Bloque entra = new Bloque(primero);
+                        entra.x = i;
+                        entra.y = columna;
+                        entra.setIdentificador(contador);
+                        init = entra;                        
                     }
-                    matriz[i][columna] = new Bloque(primero);
+                    Bloque entra = new Bloque(primero);
+                    entra.x = i;
+                    entra.y = columna;
+                    entra.setIdentificador(contador);
+                    matriz[i][columna] = entra;
+                    contador++;                    
                 }
                 columna++;
             }
             br.close();
-
+            
         } catch (HeadlessException | IOException | NumberFormatException | NullPointerException e) {
             JOptionPane.showMessageDialog(null, "Error al leer archivo intentelo de nuevo", "Error de lectura " + contadorErrores, 0);
             if (contadorErrores < 3) {
                 contadorErrores++;
                 ReadFile();
-
+                
             } else {
                 JOptionPane.showMessageDialog(null, "El archivo de lectura no es el indicado \n Intentelo luego con la cabeza fria", "Error de lectura", 0);
             }

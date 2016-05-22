@@ -31,11 +31,6 @@ public class Movimientos {
     }
 
     public boolean izquierda() {
-
-        for (int i = 0; i < recorrido.size(); i++) {
-            System.out.println("Logica.Movimientos.estubeHay()" + " x = " + recorrido.get(i).getIniciox() + " y = " + recorrido.get(i).getInicioy() + "Tamaño " + recorrido.size());
-
-        }
         int x = 0;
         int y = 0;
         boolean estubehay = false;
@@ -66,9 +61,6 @@ public class Movimientos {
         if (llegada.getContenido() != 1) {
             muro = true;
         }
-
-        //Condicion para evitar desbordamiento
-        System.out.println("Logica.Movimientos.izquierda() " + desbordamiento + compruebarMovimiento + muro + !estubehay);
         if (desbordamiento && compruebarMovimiento && muro && !estubehay) {
             partida.setUltimoMovimiento(1);
             partida.setContenido(0);
@@ -115,7 +107,7 @@ public class Movimientos {
         if (llegada.getContenido() != 1) {
             muro = true;
         }
-        System.out.println("Logica.Movimientos.arriba() " + desbordamiento + compruebarMovimiento + muro + !estubehay);
+       
         if (desbordamiento && compruebarMovimiento && muro && !estubehay) {
             partida.setUltimoMovimiento(2);
             partida.setContenido(0);
@@ -164,7 +156,7 @@ public class Movimientos {
             muro = true;
         }
         //Condicion para evitar desbordamiento
-        System.out.println("Logica.Movimientos.derecha() " + desbordamiento + compruebarMovimiento + muro + !estubehay);
+       
         if (desbordamiento && compruebarMovimiento && muro && !estubehay) {
             partida.setUltimoMovimiento(3);
             partida.setContenido(0);
@@ -216,7 +208,7 @@ public class Movimientos {
             muro = true;
         }
         //Condicion para evitar desbordamiento
-        System.out.println("Logica.Movimientos.abajo() " + desbordamiento + compruebarMovimiento + muro + !estubehay);
+       
         if (desbordamiento && compruebarMovimiento && muro && !estubehay) {
             partida.setUltimoMovimiento(1);
             partida.setContenido(0);
