@@ -17,10 +17,12 @@ public class Bloque {
    private int identificador;
    public int x = 0;
    public int y = 0;
+   public boolean raiz;
 
     public Bloque() {
         this.contenido = 0;
         this.ultimoMovimiento = 0;
+        this.raiz = false;
        // this.padre = new Bloque();
     }
 

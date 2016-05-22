@@ -58,6 +58,7 @@ public class Leer {
                         Bloque entra = new Bloque(primero);
                         entra.x = i;
                         entra.y = columna;
+                        entra.raiz = true;
                         init = entra;                        
                     }
                     Bloque entra = new Bloque(primero);
