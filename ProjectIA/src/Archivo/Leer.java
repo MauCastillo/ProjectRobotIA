@@ -25,6 +25,7 @@ public class Leer {
     public Coordenada inicio;
     public Bloque init;
     int contadorErrores = 0;
+    int contador_id = 0;
     
     public Bloque[][] ReadFile() {
         File archivo;
@@ -58,14 +59,18 @@ public class Leer {
                         Bloque entra = new Bloque(primero);
                         entra.x = i;
                         entra.y = columna;
+                        entra.raiz = true;
+                        entra.setIdentificador(contador_id);
                         init = entra;                        
                     }
                     Bloque entra = new Bloque(primero);
                     entra.x = i;
                     entra.y = columna;
-                    matriz[i][columna] = entra;       
+                    entra.setIdentificador(contador_id);
+                    matriz[i][columna] = entra;   
+                    contador_id++;
                 }
-                columna++;
+                columna++;           
             }
             br.close();
             

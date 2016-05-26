@@ -99,7 +99,7 @@ public class UsuarioVisual extends javax.swing.JFrame {
 
         jPanel2 = new javax.swing.JPanel();
         jBbuscar = new javax.swing.JButton();
-        jCseleccion = new javax.swing.JComboBox<String>();
+        jCseleccion = new javax.swing.JComboBox<>();
         jPBanner = new javax.swing.JPanel();
         jLIcoTitle = new javax.swing.JLabel();
         jPmapa = new javax.swing.JPanel();
@@ -132,7 +132,7 @@ public class UsuarioVisual extends javax.swing.JFrame {
             }
         });
 
-        jCseleccion.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Profundida", "Ampitud", "Costo Uniforme", "Avare ", "A*" }));
+        jCseleccion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Profundidad", "Ampitud", "Costo Uniforme", "Avare", "A*" }));
         jCseleccion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCseleccionActionPerformed(evt);
@@ -240,7 +240,6 @@ public class UsuarioVisual extends javax.swing.JFrame {
         if (jCseleccion.getSelectedIndex() == 0) {
             Profundida amplitud = new Profundida(matriz, init);
             amplitud.BusquedaProfundida();
-
         }
         if (jCseleccion.getSelectedIndex() == 1) {
             //Amplitud

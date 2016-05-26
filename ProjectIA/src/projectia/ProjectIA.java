@@ -26,20 +26,20 @@ public class ProjectIA {
         //Hago visible al Usuario
         visualizacion.setVisible(true);
         /*Prueba de lectura del archivo plano por consola*/
-        /*
+/*
         Leer lectura = new Leer();
         Bloque[][] matrix = lectura.ReadFile();
         //Columnas}
         System.out.println("Pintando Matriz");
-        for (int i = 0; i < matriz.length; i++) {
+        for (int i = 0; i < matrix.length; i++) {
             //Filas
-            for (int j = 0; j < matriz.length; j++) {
-                System.out.print(" "+ matriz[j][i].getContenido()+" |");
+            for (int j = 0; j < matrix.length; j++) {
+                System.out.print(" "+ matrix[j][i].getIdentificador()+" |");
 
             }
             System.out.println("-");
-        }*/
-
+        }
+*/
     }
 
 }

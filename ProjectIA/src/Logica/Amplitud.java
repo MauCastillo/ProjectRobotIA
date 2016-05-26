@@ -14,7 +14,6 @@ import javax.swing.JOptionPane;
  */
 public class Amplitud {
 
-    int contadorid;
     Bloque[][] matrix;
     private int premios;
     private int escudo;
@@ -28,70 +27,56 @@ public class Amplitud {
         this.cola = new Cola();
         this.stdinicial = new Bloque();
         this.stdinicial = Inicial;
+        Inicial.raiz = true;
         this.cola.push(Inicial);
-        this.contadorid = 0;
+        //this.solucion.add(Inicial);
+
     }
 
     public ArrayList<Bloque> BusquedaAmplitud() {
-        ArrayList<Bloque> salida = new ArrayList<>();
         while (premios != 2) {
             if (cola.vacio()) {
                 System.out.println("Error");
             }
             Bloque n = new Bloque();
             n = cola.pop();
-            if (ObtencionObjetos(n)) {
-                 System.out.println("matrix" +matrix[9][9].getContenido() +"coordenada x" +matrix[9][9].getX()  +"coordenada y"+matrix[9][9].getY() );
-                if (n.x == 9 && n.y == 9) {
-                    JOptionPane.showMessageDialog(null, "encontro el ultimo");
-                   
-                }
-                JOptionPane.showMessageDialog(null, "Winner");
-                cola.clear();
-                cola.push(n);
-                print(solucion);
-            }
             if (n.getContenido() != 1) {
+                //Para evitar ciclos pendejos
+
+                System.out.println(" <<Padre>> +  X =  " + n.x + " Y = " + n.y + "  -+-+-+-");
+                solucion.add(n);
                 expandir(n);
-                System.out.println("Encontro Algo en la pocision " + " X =  " + n.x + " Y = " + n.y);
-                salida.add(n);
+
             }
         }
-        return salida;
+        return solucion;
     }
 
     void expandir(Bloque entrada) {
-        Bloque izq = new Bloque();
         //Comprueba la izquierda
-        izq = izquierda(entrada);
-        if (izq != null) {
-            cola.push(izq);
-        }
-        //Comprueba la derecha
-        izq = derecha(entrada);
-        if (izq != null) {
-            cola.push(izq);
-        }
-        //Comprueba la arriba
-        izq = arriba(entrada);
-        if (izq != null) {
-            cola.push(izq);
-        }
-        //Comprueba la abajo
-        izq = bajo(entrada);
-        if (izq != null) {
-            cola.push(izq);
-        }
+        izquierda(entrada);
+        derecha(entrada);
+        arriba(entrada);
+        bajo(entrada);
     }
 
     Bloque izquierda(Bloque entrada) {
+
         Bloque salida = new Bloque();
-        contadorid++;
         salida = null;
         if (entrada.x != 0) {
             salida = matrix[(entrada.x - 1)][entrada.y];
             salida.setPadre(entrada.getIdentificador());
-            salida.setIdentificador(contadorid);
+            /* para No realizar la expacion de su padre
+             */
+            if (salida.getIdentificador() != entrada.getPadre()) {
+                if (salida.getContenido() != 1) {
+                    ObtencionObjetos(salida);
+                    System.out.println("IZQ X = " + salida.x + " Y = " + salida.y + " Padre es: " + salida.getPadre());
+                    cola.push(salida);
+                    solucion.add(salida);
+                }
+            }
         }
         return salida;
     }
@@ -104,7 +89,17 @@ public class Amplitud {
         if (entrada.x != 9) {
             salida = matrix[(entrada.x + 1)][entrada.y];
             salida.setPadre(entrada.getIdentificador());
-            salida.setIdentificador(contadorid);
+            /* para No realizar la expacion de su padre
+             */
+            if (salida.getIdentificador() != entrada.getPadre()) {
+                if (salida.getContenido() != 1) {
+                    ObtencionObjetos(salida);
+                    System.out.println("DER X = " + salida.x + " Y = " + salida.y + " Padre es: " + salida.getPadre());
+                    cola.push(salida);
+                    solucion.add(salida);
+
+                }
+            }
         }
         return salida;
     }
@@ -113,9 +108,19 @@ public class Amplitud {
         Bloque salida = new Bloque();
         salida = null;
         if (entrada.y != 0) {
-            salida = matrix[(entrada.x)][entrada.y - 1];
+            salida = matrix[(entrada.x)][(entrada.y - 1)];
             salida.setPadre(entrada.getIdentificador());
-            salida.setIdentificador(contadorid);
+            /* para No realizar la expacion de su padre
+             */
+            if (salida.getIdentificador() != entrada.getPadre()) {
+                if (salida.getContenido() != 1) {
+                    ObtencionObjetos(salida);
+                    System.out.println("UP X = " + salida.x + " Y = " + salida.y + " Padre es: " + salida.getPadre());
+                    cola.push(salida);
+                    solucion.add(salida);
+
+                }
+            }
         }
         return salida;
     }
@@ -124,9 +129,19 @@ public class Amplitud {
         Bloque salida = new Bloque();
         salida = null;
         if (entrada.y != 9) {
-            salida = matrix[(entrada.x)][entrada.y + 1];
+            salida = matrix[(entrada.x)][(entrada.y + 1)];
             salida.setPadre(entrada.getIdentificador());
-            salida.setIdentificador(contadorid);
+            /* para No realizar la expacion de su padre
+             */
+            if (salida.getIdentificador() != entrada.getPadre()) {
+                if (salida.getContenido() != 1) {
+                    ObtencionObjetos(salida);
+                    System.out.println("DOWN X = " + salida.x + " Y = " + salida.y + " Padre es: " + salida.getPadre());
+                    cola.push(salida);
+                    //solucion.add(salida);
+
+                }
+            }
         }
         return salida;
     }
@@ -134,14 +149,19 @@ public class Amplitud {
 
     boolean ObtencionObjetos(Bloque intro) {
         boolean salida = false;
-        if (intro.getContenido() == 6) {
+
+        if (intro.getContenido() == 6 && intro != null) {
             premios += 1;
+            JOptionPane.showMessageDialog(null, " Encontro Bateria X = " + intro.x + "  Y = " + intro.y + " mi padre es: " + intro.getPadre());
+            print(solucion);
+            JOptionPane.showMessageDialog(null, " Fin de camino Bateria X = " + intro.x + "  Y = " + intro.y + " mi padre es: " + intro.getPadre());
             matrix[intro.x][intro.y].setContenido(0);
             salida = true;
 
         }
-        if (intro.getContenido() == 3) {
+        if (intro.getContenido() == 3 && intro != null) {
             escudo += 1;
+            JOptionPane.showMessageDialog(null, " Encontro escudo X = " + intro.x + "  Y = " + intro.y);
             matrix[intro.x][intro.y].setContenido(0);
             salida = true;
         }
@@ -149,40 +169,40 @@ public class Amplitud {
         return salida;
     }
 
-    public int buscarPadre(Bloque nodo) {
-        for (int i = 0; i < solucion.size(); i++) {
-            if (solucion.get(i).getIdentificador() == nodo.getIdentificador()) {
-                System.out.println(" padre " + i);
-                return i;
-            }
-        }
-        return -1;
-    }
-
-    public ArrayList<Bloque> buscarSolucion(Bloque nodo) {
-        Bloque fin = new Bloque();
-        Bloque analizis = new Bloque();
-        analizis = nodo;
-        fin = stdinicial;
-        ArrayList<Bloque> camino = new ArrayList<>();
-        camino.add(analizis);
-
-        int caminosize = 0;
-        for (int i = 0; i < solucion.size(); i++) {
-            caminosize = camino.size() - 1;
-            int ubicacion = buscarPadre(camino.get(caminosize));
-            if (ubicacion != -1) {
-                camino.add(solucion.get(ubicacion));
-            }
-        }
-        return camino;
-    }
-
     void print(ArrayList<Bloque> n) {
         // System.out.println("Logica.Amplitud.print() camino encontrado");
         for (int i = 0; i < n.size(); i++) {
-            System.out.println("Logica.Amplitud.BusquedaAmplitud() " + " x = " + n.get(i).x + " y = " + n.get(i).y + " padre " + n.get(i).getIdentificador());
+            System.out.println(" Paso:" + i + " x = " + n.get(i).x + " y = " + n.get(i).y + " padre " + n.get(i).getPadre() + " ID " + n.get(i).getIdentificador());
         }
 
     }
+
+    public Bloque buscarPadre(Bloque nodo) {
+        Bloque salida = new Bloque();
+        salida.setPadre(0);
+        for (int i = 0; i < solucion.size(); i++) {
+            if (nodo.getPadre() == solucion.get(i).getIdentificador()) {
+                salida = solucion.get(i);
+
+                System.out.println(" Encontro Padre:::: " + solucion.get(i).getIdentificador());
+            }
+
+        }
+        return salida;
+    }
+
+    public ArrayList<Bloque> camino(Bloque input) {
+        ArrayList<Bloque> salida = new ArrayList<>();
+        Bloque nuevo = new Bloque();
+        nuevo = input;
+        salida.add(nuevo);
+        while (!(nuevo.raiz)) {
+            System.out.println("+0+");
+            int index = salida.size() - 1;
+            nuevo = buscarPadre(salida.get(index));
+            salida.add(nuevo);
+        }
+        return salida;
+    }
+
 }

@@ -44,4 +44,12 @@ public class Cola {
         return salida;
     }
 
+    public ArrayList<Bloque> getCola() {
+        return cola;
+    }
+
+    public void setCola(ArrayList<Bloque> cola) {
+        this.cola = cola;
+    }
+
 }
