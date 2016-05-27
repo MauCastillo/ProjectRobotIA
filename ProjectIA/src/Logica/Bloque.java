@@ -11,26 +11,26 @@ package Logica;
  */
 public class Bloque {
 
-   private  int contenido;
-   private int ultimoMovimiento;
-   private  int padre;
-   private int identificador;
-   public int x = 0;
-   public int y = 0;
-   public boolean raiz;
+    private int contenido;
+    private String ultimoMovimiento;
+    private int padre;
+    private int identificador;
+    public int x = 0;
+    public int y = 0;
+    public boolean raiz;
 
     public Bloque() {
         this.contenido = 0;
-        this.ultimoMovimiento = 0;
+        this.ultimoMovimiento = "";
         this.raiz = false;
-       // this.padre = new Bloque();
+        // this.padre = new Bloque();
     }
 
-    public int getUltimoMovimiento() {
+    public String getUltimoMovimiento() {
         return ultimoMovimiento;
     }
 
-    public void setUltimoMovimiento(int ultimoMovimiento) {
+    public void setUltimoMovimiento(String ultimoMovimiento) {
         this.ultimoMovimiento = ultimoMovimiento;
     }
 

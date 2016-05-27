@@ -28,6 +28,7 @@ public class Amplitud {
         this.stdinicial = new Bloque();
         this.stdinicial = Inicial;
         Inicial.raiz = true;
+        Inicial.setUltimoMovimiento("raiz");
         this.cola.push(Inicial);
         //this.solucion.add(Inicial);
 
@@ -67,14 +68,18 @@ public class Amplitud {
         if (entrada.x != 0) {
             salida = matrix[(entrada.x - 1)][entrada.y];
             salida.setPadre(entrada.getIdentificador());
+            salida.setUltimoMovimiento("izquierda");
+
             /* para No realizar la expacion de su padre
              */
-            if (salida.getIdentificador() != entrada.getPadre()) {
-                if (salida.getContenido() != 1) {
-                    ObtencionObjetos(salida);
-                    System.out.println("IZQ X = " + salida.x + " Y = " + salida.y + " Padre es: " + salida.getPadre());
-                    cola.push(salida);
-                    solucion.add(salida);
+            if (!entrada.getUltimoMovimiento().equalsIgnoreCase("derecha")) {
+                if (salida.getIdentificador() != entrada.getPadre()) {
+                    if (salida.getContenido() != 1) {
+                        ObtencionObjetos(salida);
+                        System.out.println("IZQ X = " + salida.x + " Y = " + salida.y + " Padre es: " + salida.getPadre());
+                        cola.push(salida);
+                        solucion.add(salida);
+                    }
                 }
             }
         }
@@ -89,15 +94,17 @@ public class Amplitud {
         if (entrada.x != 9) {
             salida = matrix[(entrada.x + 1)][entrada.y];
             salida.setPadre(entrada.getIdentificador());
+            salida.setUltimoMovimiento("derecha");
             /* para No realizar la expacion de su padre
              */
-            if (salida.getIdentificador() != entrada.getPadre()) {
-                if (salida.getContenido() != 1) {
-                    ObtencionObjetos(salida);
-                    System.out.println("DER X = " + salida.x + " Y = " + salida.y + " Padre es: " + salida.getPadre());
-                    cola.push(salida);
-                    solucion.add(salida);
-
+            if (!entrada.getUltimoMovimiento().equalsIgnoreCase("izquierda")) {
+                if (salida.getIdentificador() != entrada.getPadre()) {
+                    if (salida.getContenido() != 1) {
+                        ObtencionObjetos(salida);
+                        System.out.println("DER X = " + salida.x + " Y = " + salida.y + " Padre es: " + salida.getPadre());
+                        cola.push(salida);
+                        solucion.add(salida);
+                    }
                 }
             }
         }
@@ -110,15 +117,17 @@ public class Amplitud {
         if (entrada.y != 0) {
             salida = matrix[(entrada.x)][(entrada.y - 1)];
             salida.setPadre(entrada.getIdentificador());
+            salida.setUltimoMovimiento("arriba");
             /* para No realizar la expacion de su padre
              */
-            if (salida.getIdentificador() != entrada.getPadre()) {
-                if (salida.getContenido() != 1) {
-                    ObtencionObjetos(salida);
-                    System.out.println("UP X = " + salida.x + " Y = " + salida.y + " Padre es: " + salida.getPadre());
-                    cola.push(salida);
-                    solucion.add(salida);
-
+            if (!entrada.getUltimoMovimiento().equalsIgnoreCase("abajo")) {
+                if (salida.getIdentificador() != entrada.getPadre()) {
+                    if (salida.getContenido() != 1) {
+                        ObtencionObjetos(salida);
+                        System.out.println("UP X = " + salida.x + " Y = " + salida.y + " Padre es: " + salida.getPadre());
+                        cola.push(salida);
+                        solucion.add(salida);
+                    }
                 }
             }
         }
@@ -131,15 +140,18 @@ public class Amplitud {
         if (entrada.y != 9) {
             salida = matrix[(entrada.x)][(entrada.y + 1)];
             salida.setPadre(entrada.getIdentificador());
+            salida.setUltimoMovimiento("abajo");
             /* para No realizar la expacion de su padre
              */
-            if (salida.getIdentificador() != entrada.getPadre()) {
-                if (salida.getContenido() != 1) {
-                    ObtencionObjetos(salida);
-                    System.out.println("DOWN X = " + salida.x + " Y = " + salida.y + " Padre es: " + salida.getPadre());
-                    cola.push(salida);
-                    //solucion.add(salida);
+            if (!entrada.getUltimoMovimiento().equalsIgnoreCase("arriba")) {
+                if (salida.getIdentificador() != entrada.getPadre()) {
+                    if (salida.getContenido() != 1) {
+                        ObtencionObjetos(salida);
+                        System.out.println("DOWN X = " + salida.x + " Y = " + salida.y + " Padre es: " + salida.getPadre());
+                        cola.push(salida);
+                        //solucion.add(salida);
 
+                    }
                 }
             }
         }
@@ -179,15 +191,9 @@ public class Amplitud {
 
     public Bloque buscarPadre(Bloque nodo) {
         Bloque salida = new Bloque();
-        salida.setPadre(0);
-        for (int i = 0; i < solucion.size(); i++) {
-            if (nodo.getPadre() == solucion.get(i).getIdentificador()) {
-                salida = solucion.get(i);
-
-                System.out.println(" Encontro Padre:::: " + solucion.get(i).getIdentificador());
-            }
-
+        while (salida.getUltimoMovimiento().equalsIgnoreCase("raiz")) {
         }
+
         return salida;
     }
 
