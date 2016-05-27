@@ -165,7 +165,7 @@ public class Amplitud {
         if (intro.getContenido() == 6 && intro != null) {
             premios += 1;
             JOptionPane.showMessageDialog(null, " Encontro Bateria X = " + intro.x + "  Y = " + intro.y + " mi padre es: " + intro.getPadre());
-            print(camino(intro));
+            print(solucion);
             JOptionPane.showMessageDialog(null, " Fin de camino Bateria X = " + intro.x + "  Y = " + intro.y + " mi padre es: " + intro.getPadre());
             matrix[intro.x][intro.y].setContenido(0);
             salida = true;
@@ -191,7 +191,7 @@ public class Amplitud {
 
     public Bloque buscarPadre(Bloque nodo) {
         Bloque salida = new Bloque();
-        salida.getUltimoMovimiento("raiz");
+        salida.setUltimoMovimiento("raiz");
         if (nodo.getUltimoMovimiento().equalsIgnoreCase("derecha")) {
             salida = izquierda(nodo);
         }
