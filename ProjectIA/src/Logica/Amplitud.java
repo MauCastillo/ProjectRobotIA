@@ -149,7 +149,7 @@ public class Amplitud {
                         ObtencionObjetos(salida);
                         System.out.println("DOWN X = " + salida.x + " Y = " + salida.y + " Padre es: " + salida.getPadre());
                         cola.push(salida);
-                        //solucion.add(salida);
+                        solucion.add(salida);
 
                     }
                 }
@@ -165,7 +165,7 @@ public class Amplitud {
         if (intro.getContenido() == 6 && intro != null) {
             premios += 1;
             JOptionPane.showMessageDialog(null, " Encontro Bateria X = " + intro.x + "  Y = " + intro.y + " mi padre es: " + intro.getPadre());
-            print(solucion);
+            print(camino(intro));
             JOptionPane.showMessageDialog(null, " Fin de camino Bateria X = " + intro.x + "  Y = " + intro.y + " mi padre es: " + intro.getPadre());
             matrix[intro.x][intro.y].setContenido(0);
             salida = true;
@@ -191,9 +191,22 @@ public class Amplitud {
 
     public Bloque buscarPadre(Bloque nodo) {
         Bloque salida = new Bloque();
-        while (salida.getUltimoMovimiento().equalsIgnoreCase("raiz")) {
+        salida.getUltimoMovimiento("raiz");
+        if (nodo.getUltimoMovimiento().equalsIgnoreCase("derecha")) {
+            salida = izquierda(nodo);
         }
-
+        if (nodo.getUltimoMovimiento().equalsIgnoreCase("izquierda")) {
+            salida = derecha(nodo);
+        }
+        if (nodo.getUltimoMovimiento().equalsIgnoreCase("abajo")) {
+            salida = arriba(nodo);
+        }
+        if (nodo.getUltimoMovimiento().equalsIgnoreCase("arriba")) {
+            salida = bajo(nodo);
+        }
+        if (nodo.getUltimoMovimiento().equalsIgnoreCase("raiz")) {
+            salida = stdinicial;
+        }
         return salida;
     }
 
