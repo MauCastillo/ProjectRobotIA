@@ -9,6 +9,7 @@ import Logica.Bloque;
 import Logica.Coordenada;
 import Archivo.Leer;
 import Logica.Amplitud;
+import Logica.Costo_uniforme;
 import Logica.Profundida;
 import java.awt.GridLayout;
 import Recursos.IcoRecurso;
@@ -25,9 +26,10 @@ public class UsuarioVisual extends javax.swing.JFrame {
      * Creates new form UsuarioVisual
      */
     Leer lectura = new Leer();
-    Bloque[][] matriz;
+    static Bloque[][] matriz;
     Coordenada inicia = new Coordenada();
     Bloque init = new Bloque();
+
     public UsuarioVisual() {
         initComponents();
         //Funcines para el Inicio del Mapa
@@ -66,7 +68,7 @@ public class UsuarioVisual extends javax.swing.JFrame {
     }
 
     /*Funcion diseñada para llenar el JPmapa de Botones*/
-    public void creacionBotones(Bloque[][] matriz) {
+    private void creacionBotones(Bloque[][] matriz) {
 
         this.setSize(450, 492);
         jPmapa.removeAll();
@@ -86,6 +88,9 @@ public class UsuarioVisual extends javax.swing.JFrame {
             }
         }
         this.setSize(450, 493);
+    }
+    private void MostrarCamino(){
+    
     }
 
     /**
@@ -153,7 +158,7 @@ public class UsuarioVisual extends javax.swing.JFrame {
         );
         jPmapaLayout.setVerticalGroup(
             jPmapaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 316, Short.MAX_VALUE)
+            .addGap(0, 321, Short.MAX_VALUE)
         );
 
         jLTitle.setFont(new java.awt.Font("Candara", 1, 24)); // NOI18N
@@ -206,12 +211,11 @@ public class UsuarioVisual extends javax.swing.JFrame {
                         .addGap(8, 8, 8)
                         .addComponent(jPBanner, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jCseleccion, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 289, Short.MAX_VALUE)
-                        .addComponent(jBbuscar))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jCseleccion, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jBbuscar)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -222,9 +226,11 @@ public class UsuarioVisual extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jCseleccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jBbuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jBbuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 26, Short.MAX_VALUE)
+                        .addGap(1, 1, 1)))
                 .addContainerGap())
         );
 
@@ -238,21 +244,23 @@ public class UsuarioVisual extends javax.swing.JFrame {
     private void jBbuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBbuscarActionPerformed
         int algoritmo = 0;
         if (jCseleccion.getSelectedIndex() == 0) {
-            //Profundida amplitud = new Profundida(matriz, init);
-            //amplitud.BusquedaProfundida();
+            Profundida profundida = new Profundida(matriz, init);
+            profundida.BusquedaProfindida();
         }
         if (jCseleccion.getSelectedIndex() == 1) {
             //Amplitud
             Amplitud amplitud = new Amplitud(matriz, init);
             amplitud.BusquedaAmplitud();
         }
-        if (jCseleccion.getSelectedIndex() == 1) {
+        if (jCseleccion.getSelectedIndex() == 2) {
             //Costo Uniforme
+            Costo_uniforme costo = new Costo_uniforme(matriz, init);
+            costo.BusquedaCostouniforme();
         }
-        if (jCseleccion.getSelectedIndex() == 1) {
+        if (jCseleccion.getSelectedIndex() == 3) {
             //Avara
         }
-        if (jCseleccion.getSelectedIndex() == 1) {
+        if (jCseleccion.getSelectedIndex() == 4) {
             //A*
         }
 

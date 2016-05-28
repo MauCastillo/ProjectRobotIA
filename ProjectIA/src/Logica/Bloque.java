@@ -18,12 +18,13 @@ public class Bloque {
     public int x = 0;
     public int y = 0;
     public boolean raiz;
+    private int costo;
 
     public Bloque() {
         this.contenido = 0;
         this.ultimoMovimiento = "";
         this.raiz = false;
-        // this.padre = new Bloque();
+        this.costo = 0;
     }
 
     public String getUltimoMovimiento() {
@@ -78,4 +79,24 @@ public class Bloque {
         this.identificador = identificador;
     }
 
+    public int getCosto() {
+        return costo;
+    }
+
+    public void setCosto(int costo) {
+        this.costo = costo;
+    }
+
+    public int comparo(Bloque other) {
+        int salida = 0;
+
+        if (costo > other.getCosto()) {
+            salida = 1;
+        }
+        if (costo < other.getCosto()) {
+            salida = -1;
+        }
+
+        return salida;
+    }
 }

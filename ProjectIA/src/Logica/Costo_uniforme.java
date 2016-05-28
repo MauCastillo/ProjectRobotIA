@@ -13,37 +13,37 @@ import javax.swing.JOptionPane;
  *
  * @author mao
  */
-public class Profundida {
+public class Costo_uniforme {
 
     Bloque[][] matrix;
     private int premios;
     private int escudo;
-    private Pila pila;
+    private ColaPriorida cola;
     private ArrayList<Bloque> solucion;
     private Bloque stdinicial;
-    private int costo_general;
+    int costo_general;
 
-    public Profundida(Bloque[][] matrix, Bloque Inicial) {
+    public Costo_uniforme(Bloque[][] matrix, Bloque Inicial) {
         this.matrix = matrix.clone();
         this.solucion = new ArrayList<>();
-        this.pila = new Pila();
+        this.cola = new ColaPriorida();
         this.stdinicial = new Bloque();
         this.stdinicial = Inicial;
         Inicial.raiz = true;
         Inicial.setUltimoMovimiento("raiz");
         Inicial.setPadre(Inicial);
-        this.pila.push(Inicial);
+        this.cola.push(Inicial);
         //this.solucion.add(Inicial);
 
     }
 
-    public ArrayList<Bloque> BusquedaProfindida() {
+    public ArrayList<Bloque> BusquedaCostouniforme() {
         while (premios != 2) {
-            if (pila.vacio()) {
+            if (cola.vacio()) {
                 System.out.println("Error");
             }
             Bloque n = new Bloque();
-            n = pila.pop();
+            n = cola.pop();
             if (n.getContenido() != 1) {
                 //Para evitar ciclos pendejos
 
@@ -82,7 +82,7 @@ public class Profundida {
                     if (salida.getContenido() != 1) {
 
                         System.out.println("IZQ X = " + salida.x + " Y = " + salida.y + " Padre es: " + salida.getPadre().x);
-                        pila.push(salida);
+                        cola.push(salida);
                         ObtencionObjetos(salida);
                         solucion.add(salida);
                     }
@@ -110,7 +110,7 @@ public class Profundida {
                     if (salida.getContenido() != 1) {
 
                         System.out.println("DER X = " + salida.x + " Y = " + salida.y + " Padre es: x " + entrada.x + " y " + entrada.y);
-                        pila.push(salida);
+                        cola.push(salida);
                         ObtencionObjetos(salida);
                         solucion.add(salida);
                     }
@@ -136,7 +136,7 @@ public class Profundida {
                     if (salida.getContenido() != 1) {
 
                         System.out.println("UP X = " + salida.x + " Y = " + salida.y + " Padre es: " + salida.getPadre());
-                        pila.push(salida);
+                        cola.push(salida);
                         ObtencionObjetos(salida);
                         solucion.add(salida);
                     }
@@ -162,7 +162,7 @@ public class Profundida {
                     if (salida.getContenido() != 1) {
 
                         System.out.println("DOWN X = " + salida.x + " Y = " + salida.y + " Padre es: " + salida.getPadre());
-                        pila.push(salida);
+                        cola.push(salida);
                         ObtencionObjetos(salida);
                         solucion.add(salida);
 
@@ -177,18 +177,19 @@ public class Profundida {
         boolean salida = false;
         Bloque Inicial = new Bloque();
         Inicial = intro;
+
         if (intro.getContenido() == 6) {
             premios += 1;
             JOptionPane.showMessageDialog(null, " Encontro Premio X = " + intro.x + "  Y = " + intro.y, "Bateria", 1, IcoRecurso.ICON_BATERIA);
             Imprimir(camino(intro));
             /*Codigo esperimental*/
-            pila.clear();
-            pila.push(intro);
+            cola.clear();
+            cola.push(intro);
             solucion.clear();
             Inicial.raiz = true;
             Inicial.setUltimoMovimiento("raiz");
             Inicial.setPadre(Inicial);
-            this.pila.push(Inicial);
+            this.cola.push(Inicial);
             /*Fin de Codigo Experimental*/
             matrix[intro.x][intro.y].setContenido(0);
             salida = true;
@@ -201,31 +202,32 @@ public class Profundida {
             Imprimir(camino(intro));
             salida = true;
             /*Codigo esperimental*/
-            pila.clear();
-            pila.push(intro);
+            cola.clear();
+            cola.push(intro);
             solucion.clear();
             Inicial.raiz = true;
             Inicial.setUltimoMovimiento("raiz");
             Inicial.setPadre(Inicial);
-            this.pila.push(Inicial);
+            this.cola.push(Inicial);
             /*Fin de Codigo Experimental*/
         }
 
         return salida;
     }
+
     void Imprimir(ArrayList<Bloque> n) {
         // System.out.println("Logica.Amplitud.print() camino encontrado");
         for (int i = 0; i < n.size(); i++) {
-            System.out.println(" Paso:" + i + " x = " + n.get(i).x + " y = " + n.get(i).y + " padre " + n.get(i).getUltimoMovimiento() + " ID " + n.get(i).getIdentificador());
+            System.out.println(" Paso:" + i + " x = " + n.get(i).x + " y = " + n.get(i).y + " padre " + n.get(i).getUltimoMovimiento() + " Costo " + n.get(i).getCosto());
         }
         if (premios == 2) {
-             JOptionPane.showMessageDialog(null, "Numero de Nodos expandidos: " + solucion.size() + "\n" + "Profundidad del arbol: " + n.size() + "\n" + "Costo: " + costo_general, "Informe", 1, IcoRecurso.ICON_INFORME);
+            JOptionPane.showMessageDialog(null, "Numero de Nodos expandidos: " + solucion.size() + "\n" + "Profundidad del arbol: " + n.size() + "\n" + "Costo: " + costo_general, "Informe", 1, IcoRecurso.ICON_INFORME);
         }
     }
 
     public ArrayList<Bloque> camino(Bloque input) {
-        costo_general = input.getCosto();
         ArrayList<Bloque> salida = new ArrayList<>();
+        costo_general = input.getCosto();
         Bloque nuevo = new Bloque();
         nuevo = input;
         salida.add(nuevo);
@@ -261,4 +263,5 @@ public class Profundida {
 
         return salida;
     }
+
 }

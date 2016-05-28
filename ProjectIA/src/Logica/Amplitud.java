@@ -5,6 +5,7 @@
  */
 package Logica;
 
+import Recursos.IcoRecurso;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
@@ -20,9 +21,11 @@ public class Amplitud {
     private Cola cola;
     private ArrayList<Bloque> solucion;
     private Bloque stdinicial;
+    int costo_general;
 
     public Amplitud(Bloque[][] matrix, Bloque Inicial) {
-        this.matrix = matrix;
+       
+        this.matrix = matrix.clone();
         this.solucion = new ArrayList<>();
         this.cola = new Cola();
         this.stdinicial = new Bloque();
@@ -31,8 +34,6 @@ public class Amplitud {
         Inicial.setUltimoMovimiento("raiz");
         Inicial.setPadre(Inicial);
         this.cola.push(Inicial);
-        //this.solucion.add(Inicial);
-
     }
 
     public ArrayList<Bloque> BusquedaAmplitud() {
@@ -74,6 +75,8 @@ public class Amplitud {
                 salida = matrix[(entrada.x - 1)][entrada.y];
                 salida.setUltimoMovimiento("izquierda");
                 salida.setPadre(entrada);
+                int costo = Costo(salida, entrada);
+                salida.setCosto(costo);
                 if (!solucion.contains(salida)) {
                     if (salida.getContenido() != 1) {
 
@@ -100,6 +103,8 @@ public class Amplitud {
                 salida = matrix[(entrada.x + 1)][entrada.y];
                 salida.setPadre(entrada);
                 salida.setUltimoMovimiento("derecha");
+                int costo = Costo(salida, entrada);
+                salida.setCosto(costo);
                 if (!solucion.contains(salida)) {
                     if (salida.getContenido() != 1) {
 
@@ -124,6 +129,8 @@ public class Amplitud {
                 salida = matrix[(entrada.x)][(entrada.y - 1)];
                 salida.setPadre(entrada);
                 salida.setUltimoMovimiento("arriba");
+                int costo = Costo(salida, entrada);
+                salida.setCosto(costo);
                 if (!solucion.contains(salida)) {
                     if (salida.getContenido() != 1) {
 
@@ -148,6 +155,8 @@ public class Amplitud {
                 salida = matrix[(entrada.x)][(entrada.y + 1)];
                 salida.setPadre(entrada);
                 salida.setUltimoMovimiento("abajo");
+                int costo = Costo(salida, entrada);
+                salida.setCosto(costo);
                 if (!solucion.contains(salida)) {
                     if (salida.getContenido() != 1) {
 
@@ -163,56 +172,89 @@ public class Amplitud {
         return salida;
     }
 //Encuentra el objeto
-
-    boolean ObtencionObjetos(Bloque intro) {
+        boolean ObtencionObjetos(Bloque intro) {
         boolean salida = false;
+        Bloque Inicial = new Bloque();
+        Inicial = intro;
 
         if (intro.getContenido() == 6) {
             premios += 1;
-            JOptionPane.showMessageDialog(null, " Encontro Bateria X = " + intro.x + "  Y = " + intro.y + " mi padre es: " + intro.getPadre() + "Ultimo Operador" + intro.getUltimoMovimiento());
+            JOptionPane.showMessageDialog(null, " Encontro Premio X = " + intro.x + "  Y = " + intro.y, "Bateria", 1, IcoRecurso.ICON_BATERIA);
             Imprimir(camino(intro));
+            /*Codigo esperimental*/
+            cola.clear();
+            cola.push(intro);
+            solucion.clear();
+            Inicial.raiz = true;
+            Inicial.setUltimoMovimiento("raiz");
+            Inicial.setPadre(Inicial);
+            this.cola.push(Inicial);
+            /*Fin de Codigo Experimental*/
             matrix[intro.x][intro.y].setContenido(0);
-            /*cola.clear();
-            Bloque nuevo_inicio = new Bloque();
-            nuevo_inicio = intro;
-            nuevo_inicio.raiz = true;
-            nuevo_inicio.setUltimoMovimiento("raiz");
-            cola.push(nuevo_inicio);*/
             salida = true;
 
         }
         if (intro.getContenido() == 3) {
             escudo += 1;
-            JOptionPane.showMessageDialog(null, " Encontro escudo X = " + intro.x + "  Y = " + intro.y);
+            JOptionPane.showMessageDialog(null, " Encontro escudo X = " + intro.x + "  Y = " + intro.y, "Bateria", 1, IcoRecurso.ICON_TRAJE);
             matrix[intro.x][intro.y].setContenido(0);
+            Imprimir(camino(intro));
             salida = true;
+            /*Codigo esperimental*/
+            cola.clear();
+            cola.push(intro);
+            solucion.clear();
+            Inicial.raiz = true;
+            Inicial.setUltimoMovimiento("raiz");
+            Inicial.setPadre(Inicial);
+            this.cola.push(Inicial);
+            /*Fin de Codigo Experimental*/
         }
 
         return salida;
     }
 
     void Imprimir(ArrayList<Bloque> n) {
-        // System.out.println("Logica.Amplitud.print() camino encontrado");
         for (int i = 0; i < n.size(); i++) {
             System.out.println(" Paso:" + i + " x = " + n.get(i).x + " y = " + n.get(i).y + " padre " + n.get(i).getUltimoMovimiento() + " ID " + n.get(i).getIdentificador());
         }
-
+        if (premios == 2) {
+             JOptionPane.showMessageDialog(null, "Numero de Nodos expandidos: " + solucion.size() + "\n" + "Profundidad del arbol: " + n.size() + "\n" + "Costo: " + costo_general, "Informe", 1, IcoRecurso.ICON_INFORME);
+        }
     }
 
     public ArrayList<Bloque> camino(Bloque input) {
+         costo_general = input.getCosto();
         ArrayList<Bloque> salida = new ArrayList<>();
         Bloque nuevo = new Bloque();
         nuevo = input;
         salida.add(nuevo);
-        int i = 0;
-       // while ((!nuevo.raiz) || nuevo.getUltimoMovimiento().equals("raiz")) {
-       while (i <12){
-            System.out.println("+0+");
+        while (true) {
             nuevo = nuevo.getPadre();
-            //nuevo = buscarPadre(salida.get(index));
             salida.add(nuevo);
-            i++;
+            if (nuevo.raiz) {
+                break;
+            }
         }
+        return salida;
+    }
+
+    /*Esta funcion retorna el costo*/
+    private int Costo(Bloque hijo, Bloque padre) {
+        int salida = 1;
+        if (escudo == 0) {
+            /*Campo de tipo 1*/
+            if (hijo.getContenido() == 4) {
+                salida = 3;
+            }
+            /*Campo de tipo 2*/
+            if (hijo.getContenido() == 5) {
+                salida = 6;
+            }
+
+        }
+        salida += padre.getCosto();
+
         return salida;
     }
 
