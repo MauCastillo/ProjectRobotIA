@@ -13,8 +13,12 @@ import Logica.Costo_uniforme;
 import Logica.Profundida;
 import java.awt.GridLayout;
 import Recursos.IcoRecurso;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -26,17 +30,17 @@ public class UsuarioVisual extends javax.swing.JFrame {
      * Creates new form UsuarioVisual
      */
     Leer lectura = new Leer();
-    static Bloque[][] matriz;
+    static Bloque[][] matrix;
     Coordenada inicia = new Coordenada();
     Bloque init = new Bloque();
 
     public UsuarioVisual() {
         initComponents();
         //Funcines para el Inicio del Mapa
-        this.matriz = lectura.ReadFile();
+        this.matrix = lectura.ReadFile();
         this.inicia = lectura.inicio;
         init = lectura.init;
-        this.creacionBotones(matriz);
+        this.creacionBotones(matrix);
         this.repaint();
         this.setSize(450, 491);
         //setResizable(false);
@@ -46,6 +50,9 @@ public class UsuarioVisual extends javax.swing.JFrame {
     private ImageIcon IconoMapa(Bloque bloque) {
         ImageIcon imagen = new ImageIcon();
         //Poner condicionales para elementos graficos
+        if (bloque.getContenido() == -1) {
+            imagen = IcoRecurso.ICON_MARCA;
+        }
         if (bloque.getContenido() == 1) {
             imagen = IcoRecurso.ICON_MURO;
         }
@@ -68,7 +75,7 @@ public class UsuarioVisual extends javax.swing.JFrame {
     }
 
     /*Funcion diseñada para llenar el JPmapa de Botones*/
-    private void creacionBotones(Bloque[][] matriz) {
+    private void creacionBotones(Bloque[][] matrix) {
 
         this.setSize(450, 492);
         jPmapa.removeAll();
@@ -80,17 +87,47 @@ public class UsuarioVisual extends javax.swing.JFrame {
         for (int i = 0; i < filas; i++) {
             for (int j = 0; j < columnas; j++) {
                 bMatriz[i][j] = new JLabel();
-                bMatriz[i][j].setIcon(IconoMapa(matriz[j][i]));
+                bMatriz[i][j].setIcon(IconoMapa(matrix[j][i]));
                 bMatriz[i][j].setBounds(10, 10, 10, 10);
-
+                bMatriz[i][j].repaint();
                 jPmapa.add(bMatriz[i][j]);
+                jPmapa.updateUI();
+                jPmapa.repaint();
                 //*
             }
         }
         this.setSize(450, 493);
     }
-    private void MostrarCamino(){
-    
+
+    void printmatrix(Bloque[][] matrix) {
+        System.out.println("Pintando Matriz");
+        for (int i = 0; i < matrix.length; i++) {
+            //Filas
+            for (int j = 0; j < matrix.length; j++) {
+                System.out.print(" " + matrix[j][i].getContenido() + " |");
+            }
+            System.out.println("-");
+        }
+
+    }
+
+    private void MostrarCamino(ArrayList<Bloque> entrada) {
+        /*Esta funcion Pinta el camino probeniente de los algoritmos de busqueda*/
+        Bloque[][] mapa = new Bloque[10][10];
+        mapa = matrix.clone();
+        for (int i = 0; i < entrada.size(); i++) {
+            try {
+                mapa[entrada.get(i).getX()][entrada.get(i).getY()].setContenido(2);
+                creacionBotones(mapa);
+                Thread.sleep(1000);
+                printmatrix(mapa);
+                creacionBotones(mapa);
+                mapa[entrada.get(i).getX()][entrada.get(i).getY()].setContenido(-1);
+            } catch (InterruptedException ex) {
+                JOptionPane.showMessageDialog(this, "Error en Tiempo de espera del Hilo de Ejecucion");
+            }
+        }
+
     }
 
     /**
@@ -158,7 +195,7 @@ public class UsuarioVisual extends javax.swing.JFrame {
         );
         jPmapaLayout.setVerticalGroup(
             jPmapaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 321, Short.MAX_VALUE)
+            .addGap(0, 323, Short.MAX_VALUE)
         );
 
         jLTitle.setFont(new java.awt.Font("Candara", 1, 24)); // NOI18N
@@ -223,14 +260,14 @@ public class UsuarioVisual extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPBanner, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jCseleccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jBbuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 26, Short.MAX_VALUE)
-                        .addGap(1, 1, 1)))
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jCseleccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jBbuscar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 44, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -244,18 +281,18 @@ public class UsuarioVisual extends javax.swing.JFrame {
     private void jBbuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBbuscarActionPerformed
         int algoritmo = 0;
         if (jCseleccion.getSelectedIndex() == 0) {
-            Profundida profundida = new Profundida(matriz, init);
-            profundida.BusquedaProfindida();
+            Profundida profundida = new Profundida(matrix.clone(), init);
+            MostrarCamino(profundida.BusquedaProfindida());
         }
         if (jCseleccion.getSelectedIndex() == 1) {
             //Amplitud
-            Amplitud amplitud = new Amplitud(matriz, init);
-            amplitud.BusquedaAmplitud();
+            Amplitud amplitud = new Amplitud(matrix.clone(), init);
+            MostrarCamino(amplitud.BusquedaAmplitud());
         }
         if (jCseleccion.getSelectedIndex() == 2) {
             //Costo Uniforme
-            Costo_uniforme costo = new Costo_uniforme(matriz, init);
-            costo.BusquedaCostouniforme();
+            Costo_uniforme costo = new Costo_uniforme(matrix.clone(), init);
+            MostrarCamino(costo.BusquedaCostouniforme());
         }
         if (jCseleccion.getSelectedIndex() == 3) {
             //Avara

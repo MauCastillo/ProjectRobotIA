@@ -7,6 +7,7 @@ package Logica;
 
 import Recursos.IcoRecurso;
 import java.util.ArrayList;
+import java.util.Collections;
 import javax.swing.JOptionPane;
 
 /**
@@ -19,11 +20,13 @@ public class Profundida {
     private int premios;
     private int escudo;
     private Pila pila;
+    private ArrayList<Bloque> EntregaFinal;
     private ArrayList<Bloque> solucion;
     private Bloque stdinicial;
     private int costo_general;
 
     public Profundida(Bloque[][] matrix, Bloque Inicial) {
+        this.EntregaFinal = new ArrayList<>();
         this.matrix = matrix.clone();
         this.solucion = new ArrayList<>();
         this.pila = new Pila();
@@ -53,7 +56,7 @@ public class Profundida {
 
             }
         }
-        return solucion;
+        return EntregaFinal;
     }
 
     void expandir(Bloque entrada) {
@@ -173,6 +176,7 @@ public class Profundida {
         return salida;
     }
 //Encuentra el objeto
+
     boolean ObtencionObjetos(Bloque intro) {
         boolean salida = false;
         Bloque Inicial = new Bloque();
@@ -180,6 +184,10 @@ public class Profundida {
         if (intro.getContenido() == 6) {
             premios += 1;
             JOptionPane.showMessageDialog(null, " Encontro Premio X = " + intro.x + "  Y = " + intro.y, "Bateria", 1, IcoRecurso.ICON_BATERIA);
+            ArrayList<Bloque> n;
+            n = camino(intro);
+            Collections.reverse(n);
+            EntregaFinal.addAll(n);
             Imprimir(camino(intro));
             /*Codigo esperimental*/
             pila.clear();
@@ -198,6 +206,10 @@ public class Profundida {
             escudo += 1;
             JOptionPane.showMessageDialog(null, " Encontro escudo X = " + intro.x + "  Y = " + intro.y, "Bateria", 1, IcoRecurso.ICON_TRAJE);
             matrix[intro.x][intro.y].setContenido(0);
+            ArrayList<Bloque> n;
+            n = camino(intro);
+            Collections.reverse(n);
+            EntregaFinal.addAll(n);
             Imprimir(camino(intro));
             salida = true;
             /*Codigo esperimental*/
@@ -213,13 +225,14 @@ public class Profundida {
 
         return salida;
     }
+
     void Imprimir(ArrayList<Bloque> n) {
         // System.out.println("Logica.Amplitud.print() camino encontrado");
         for (int i = 0; i < n.size(); i++) {
             System.out.println(" Paso:" + i + " x = " + n.get(i).x + " y = " + n.get(i).y + " padre " + n.get(i).getUltimoMovimiento() + " ID " + n.get(i).getIdentificador());
         }
         if (premios == 2) {
-             JOptionPane.showMessageDialog(null, "Numero de Nodos expandidos: " + solucion.size() + "\n" + "Profundidad del arbol: " + n.size() + "\n" + "Costo: " + costo_general, "Informe", 1, IcoRecurso.ICON_INFORME);
+            JOptionPane.showMessageDialog(null, "Numero de Nodos expandidos: " + solucion.size() + "\n" + "Profundidad del arbol: " + n.size() + "\n" + "Costo: " + costo_general, "Informe", 1, IcoRecurso.ICON_INFORME);
         }
     }
 

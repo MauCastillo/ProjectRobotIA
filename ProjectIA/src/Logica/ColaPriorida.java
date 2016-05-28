@@ -24,7 +24,7 @@ public class ColaPriorida {
         nodo = a;
         cola.add(nodo);
         cola = InsertionSort(cola);
-        Imprimir(cola);
+       // Imprimir(cola);
     }
 
     Bloque pop() {

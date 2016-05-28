@@ -15,6 +15,7 @@ import javax.swing.ImageIcon;
 public class IcoRecurso {
 
     // Icons constans
+    public static final ImageIcon ICON_MARCA = getIcon("marca.png");
     public static final ImageIcon ICON_INFORME = getIcon("informe.png");
     public static final ImageIcon ICON_MURO = getIcon("muro.png");
     public static final ImageIcon ICON_ROBOT = getIcon("robot.png");

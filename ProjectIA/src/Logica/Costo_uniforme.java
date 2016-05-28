@@ -7,6 +7,7 @@ package Logica;
 
 import Recursos.IcoRecurso;
 import java.util.ArrayList;
+import java.util.Collections;
 import javax.swing.JOptionPane;
 
 /**
@@ -22,8 +23,10 @@ public class Costo_uniforme {
     private ArrayList<Bloque> solucion;
     private Bloque stdinicial;
     int costo_general;
+    private ArrayList<Bloque> EntregaFinal;
 
     public Costo_uniforme(Bloque[][] matrix, Bloque Inicial) {
+        this.EntregaFinal = new ArrayList<>();
         this.matrix = matrix.clone();
         this.solucion = new ArrayList<>();
         this.cola = new ColaPriorida();
@@ -53,7 +56,7 @@ public class Costo_uniforme {
 
             }
         }
-        return solucion;
+        return EntregaFinal;
     }
 
     void expandir(Bloque entrada) {
@@ -173,6 +176,7 @@ public class Costo_uniforme {
         return salida;
     }
 //Encuentra el objeto
+
     boolean ObtencionObjetos(Bloque intro) {
         boolean salida = false;
         Bloque Inicial = new Bloque();
@@ -181,6 +185,10 @@ public class Costo_uniforme {
         if (intro.getContenido() == 6) {
             premios += 1;
             JOptionPane.showMessageDialog(null, " Encontro Premio X = " + intro.x + "  Y = " + intro.y, "Bateria", 1, IcoRecurso.ICON_BATERIA);
+            ArrayList<Bloque> n;
+            n = camino(intro);
+            Collections.reverse(n);
+            EntregaFinal.addAll(n);
             Imprimir(camino(intro));
             /*Codigo esperimental*/
             cola.clear();
@@ -199,6 +207,10 @@ public class Costo_uniforme {
             escudo += 1;
             JOptionPane.showMessageDialog(null, " Encontro escudo X = " + intro.x + "  Y = " + intro.y, "Bateria", 1, IcoRecurso.ICON_TRAJE);
             matrix[intro.x][intro.y].setContenido(0);
+            ArrayList<Bloque> n;
+            n = camino(intro);
+            Collections.reverse(n);
+            EntregaFinal.addAll(n);
             Imprimir(camino(intro));
             salida = true;
             /*Codigo esperimental*/
