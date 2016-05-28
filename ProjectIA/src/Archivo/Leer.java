@@ -21,20 +21,21 @@ import javax.swing.JOptionPane;
  * @author Mauro
  */
 public class Leer {
-    
+
     public Coordenada inicio;
     public Bloque init;
     int contadorErrores = 0;
     int contador_id = 0;
-    
+
     public Bloque[][] ReadFile() {
-        File archivo;
+        File archivo = null;
         FileReader fr = null;
         BufferedReader br;
         Bloque newBloque;
         init = new Bloque();
         /*Creacion de matriz de bloques*/
         Bloque[][] matriz = new Bloque[10][10];
+
         try {
             // Apertura del fichero y creacion de BufferedReader para poder
             // hacer una lectura comoda (disponer del metodo readLine()).
@@ -43,6 +44,7 @@ public class Leer {
             archivo = file.getSelectedFile();
             fr = new FileReader(archivo);
             br = new BufferedReader(fr);
+
             // Lectura del fichero
             String linea;
             int columna = 0;
@@ -61,25 +63,25 @@ public class Leer {
                         entra.y = columna;
                         entra.raiz = true;
                         entra.setIdentificador(contador_id);
-                        init = entra;                        
+                        init = entra;
                     }
                     Bloque entra = new Bloque(primero);
                     entra.x = i;
                     entra.y = columna;
                     entra.setIdentificador(contador_id);
-                    matriz[i][columna] = entra;   
+                    matriz[i][columna] = entra;
                     contador_id++;
                 }
-                columna++;           
+                columna++;
             }
             br.close();
-            
+
         } catch (HeadlessException | IOException | NumberFormatException | NullPointerException e) {
             JOptionPane.showMessageDialog(null, "Error al leer archivo intentelo de nuevo", "Error de lectura " + contadorErrores, 0);
             if (contadorErrores < 3) {
                 contadorErrores++;
                 ReadFile();
-                
+
             } else {
                 JOptionPane.showMessageDialog(null, "El archivo de lectura no es el indicado \n Intentelo luego con la cabeza fria", "Error de lectura", 0);
             }

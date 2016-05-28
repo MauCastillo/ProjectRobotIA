@@ -14,8 +14,6 @@ import Logica.Profundida;
 import java.awt.GridLayout;
 import Recursos.IcoRecurso;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -30,14 +28,15 @@ public class UsuarioVisual extends javax.swing.JFrame {
      * Creates new form UsuarioVisual
      */
     Leer lectura = new Leer();
-    static Bloque[][] matrix;
+    public Bloque[][] matrix;
+    public Bloque[][] matrixGrafico;
     Coordenada inicia = new Coordenada();
     Bloque init = new Bloque();
 
     public UsuarioVisual() {
         initComponents();
         //Funcines para el Inicio del Mapa
-        this.matrix = lectura.ReadFile();
+        this.matrix = lectura.ReadFile().clone();
         this.inicia = lectura.inicio;
         init = lectura.init;
         this.creacionBotones(matrix);
@@ -75,9 +74,9 @@ public class UsuarioVisual extends javax.swing.JFrame {
     }
 
     /*Funcion diseñada para llenar el JPmapa de Botones*/
-    private void creacionBotones(Bloque[][] matrix) {
+    public void creacionBotones(Bloque[][] matrix) {
 
-        this.setSize(450, 492);
+        //this.setSize(450, 492);
         jPmapa.removeAll();
         int filas = 10;
         int columnas = 10;
@@ -89,14 +88,15 @@ public class UsuarioVisual extends javax.swing.JFrame {
                 bMatriz[i][j] = new JLabel();
                 bMatriz[i][j].setIcon(IconoMapa(matrix[j][i]));
                 bMatriz[i][j].setBounds(10, 10, 10, 10);
-                bMatriz[i][j].repaint();
+                // bMatriz[i][j].repaint();
                 jPmapa.add(bMatriz[i][j]);
-                jPmapa.updateUI();
-                jPmapa.repaint();
                 //*
             }
         }
-        this.setSize(450, 493);
+        jPmapa.updateUI();
+        jPmapa.revalidate();
+        jPmapa.repaint();
+        //this.setSize(450, 493);
     }
 
     void printmatrix(Bloque[][] matrix) {
@@ -164,7 +164,7 @@ public class UsuarioVisual extends javax.swing.JFrame {
         setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         jBbuscar.setBackground(new java.awt.Color(255, 255, 255));
-        jBbuscar.setFont(new java.awt.Font("Candara", 1, 14)); // NOI18N
+        jBbuscar.setFont(new java.awt.Font("Candara", 1, 18)); // NOI18N
         jBbuscar.setText("Buscar");
         jBbuscar.setContentAreaFilled(false);
         jBbuscar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -174,6 +174,7 @@ public class UsuarioVisual extends javax.swing.JFrame {
             }
         });
 
+        jCseleccion.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jCseleccion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Profundidad", "Ampitud", "Costo Uniforme", "Avare", "A*" }));
         jCseleccion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -195,7 +196,7 @@ public class UsuarioVisual extends javax.swing.JFrame {
         );
         jPmapaLayout.setVerticalGroup(
             jPmapaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 323, Short.MAX_VALUE)
+            .addGap(0, 318, Short.MAX_VALUE)
         );
 
         jLTitle.setFont(new java.awt.Font("Candara", 1, 24)); // NOI18N
@@ -242,33 +243,34 @@ public class UsuarioVisual extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(18, 18, 18)
+                .addComponent(jPBanner, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(28, 28, 28)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(8, 8, 8)
-                        .addComponent(jPBanner, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jLabel1)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jCseleccion, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1))
+                        .addComponent(jCseleccion, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jBbuscar)))
-                .addContainerGap())
+                        .addComponent(jBbuscar)
+                        .addGap(59, 59, 59))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPBanner, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jCseleccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jBbuscar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 44, Short.MAX_VALUE))
-                .addContainerGap())
+                        .addComponent(jCseleccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jBbuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -282,17 +284,26 @@ public class UsuarioVisual extends javax.swing.JFrame {
         int algoritmo = 0;
         if (jCseleccion.getSelectedIndex() == 0) {
             Profundida profundida = new Profundida(matrix.clone(), init);
-            MostrarCamino(profundida.BusquedaProfindida());
+            ArrayList<Bloque> s = new ArrayList<>();
+            s = profundida.BusquedaProfindida();
+            HiloGrafico hilo = new HiloGrafico(s, this);
+            hilo.execute();
         }
         if (jCseleccion.getSelectedIndex() == 1) {
             //Amplitud
             Amplitud amplitud = new Amplitud(matrix.clone(), init);
-            MostrarCamino(amplitud.BusquedaAmplitud());
+            ArrayList<Bloque> s = new ArrayList<>();
+            s = amplitud.BusquedaAmplitud();
+            HiloGrafico hilo = new HiloGrafico(s, this);
+            hilo.execute();
         }
         if (jCseleccion.getSelectedIndex() == 2) {
             //Costo Uniforme
             Costo_uniforme costo = new Costo_uniforme(matrix.clone(), init);
-            MostrarCamino(costo.BusquedaCostouniforme());
+            ArrayList<Bloque> s = new ArrayList<>();
+            s = costo.BusquedaCostouniforme();
+            HiloGrafico hilo = new HiloGrafico(s, this);
+            hilo.execute();
         }
         if (jCseleccion.getSelectedIndex() == 3) {
             //Avara
