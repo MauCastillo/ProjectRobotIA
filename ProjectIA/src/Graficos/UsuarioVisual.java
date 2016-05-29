@@ -8,7 +8,9 @@ package Graficos;
 import Logica.Bloque;
 import Logica.Coordenada;
 import Archivo.Leer;
+import Logica.A_asterisco;
 import Logica.Amplitud;
+import Logica.Avara;
 import Logica.Costo_uniforme;
 import Logica.Profundida;
 import java.awt.GridLayout;
@@ -28,6 +30,7 @@ public class UsuarioVisual extends javax.swing.JFrame {
      * Creates new form UsuarioVisual
      */
     Leer lectura = new Leer();
+    ArrayList<Bloque> objetivos;
     public Bloque[][] matrix;
     public Bloque[][] matrixGrafico;
     Coordenada inicia = new Coordenada();
@@ -36,7 +39,9 @@ public class UsuarioVisual extends javax.swing.JFrame {
     public UsuarioVisual() {
         initComponents();
         //Funcines para el Inicio del Mapa
-        this.matrix = lectura.ReadFile().clone();
+        this.objetivos = new ArrayList<>();
+        this.matrix = lectura.ReadFile();
+        this.objetivos = (ArrayList<Bloque>) lectura.getObjetivos().clone();
         this.inicia = lectura.inicio;
         init = lectura.init;
         this.creacionBotones(matrix);
@@ -175,7 +180,7 @@ public class UsuarioVisual extends javax.swing.JFrame {
         });
 
         jCseleccion.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jCseleccion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Profundidad", "Ampitud", "Costo Uniforme", "Avare", "A*" }));
+        jCseleccion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Profundidad", "Ampitud", "Costo Uniforme", "Avara", "A*" }));
         jCseleccion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCseleccionActionPerformed(evt);
@@ -281,7 +286,7 @@ public class UsuarioVisual extends javax.swing.JFrame {
     }//GEN-LAST:event_jCseleccionActionPerformed
 
     private void jBbuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBbuscarActionPerformed
-        int algoritmo = 0;
+
         if (jCseleccion.getSelectedIndex() == 0) {
             Profundida profundida = new Profundida(matrix.clone(), init);
             ArrayList<Bloque> s = new ArrayList<>();
@@ -307,9 +312,19 @@ public class UsuarioVisual extends javax.swing.JFrame {
         }
         if (jCseleccion.getSelectedIndex() == 3) {
             //Avara
+            Avara avara = new Avara(matrix.clone(), init, objetivos);
+            ArrayList<Bloque> s = new ArrayList<>();
+            s = avara.BusquedaAvara();
+            HiloGrafico hilo = new HiloGrafico(s, this);
+            hilo.execute();
         }
         if (jCseleccion.getSelectedIndex() == 4) {
             //A*
+            A_asterisco a = new A_asterisco(matrix.clone(), init, objetivos);
+            ArrayList<Bloque> s = new ArrayList<>();
+            s = a.BusquedaA();
+            HiloGrafico hilo = new HiloGrafico(s, this);
+            hilo.execute();
         }
 
     }//GEN-LAST:event_jBbuscarActionPerformed

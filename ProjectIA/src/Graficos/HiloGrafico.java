@@ -32,7 +32,7 @@ public class HiloGrafico extends SwingWorker< Integer, Integer> {
             try {
                 mapa[entrada.get(i).getX()][entrada.get(i).getY()].setContenido(2);
                 grafico.creacionBotones(mapa);
-                Thread.sleep(800);
+                Thread.sleep(1000);
                 grafico.printmatrix(mapa);
                 grafico.creacionBotones(mapa);
                 mapa[entrada.get(i).getX()][entrada.get(i).getY()].setContenido(-1);

@@ -12,6 +12,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.StringTokenizer;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -26,8 +27,10 @@ public class Leer {
     public Bloque init;
     int contadorErrores = 0;
     int contador_id = 0;
+    private ArrayList<Bloque> Objetivos;
 
     public Bloque[][] ReadFile() {
+        this.Objetivos = new ArrayList<>();
         File archivo = null;
         FileReader fr = null;
         BufferedReader br;
@@ -65,6 +68,14 @@ public class Leer {
                         entra.setIdentificador(contador_id);
                         init = entra;
                     }
+                    if (primero == 6) {
+                        inicio = new Coordenada(i, columna);
+                        Bloque entra = new Bloque(primero);
+                        entra.x = i;
+                        entra.y = columna;
+                        entra.setIdentificador(contador_id);
+                        Objetivos.add(entra);
+                    }
                     Bloque entra = new Bloque(primero);
                     entra.x = i;
                     entra.y = columna;
@@ -99,4 +110,14 @@ public class Leer {
         }
         return matriz;
     }
+
+    public ArrayList<Bloque> getObjetivos() {
+        return Objetivos;
+    }
+
+    public void setObjetivos(ArrayList<Bloque> Objetivos) {
+        this.Objetivos = Objetivos;
+    }
+
+
 }
