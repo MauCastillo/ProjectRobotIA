@@ -44,6 +44,7 @@ public class Avara {
         Inicial.setUltimoMovimiento("raiz");
         Inicial.setPadre(Inicial);
         this.cola.push(Inicial);
+        ordenarObjetivos();
     }
 
     public ArrayList<Bloque> BusquedaAvara() {
@@ -61,6 +62,23 @@ public class Avara {
             }
         }
         return EntregaFinal;
+    }
+
+    public void ordenarObjetivos() {
+        Bloque primero = new Bloque();
+        Bloque segundo = new Bloque();
+        primero = Items.get(0);
+        primero.setCosto(HeuristicaInicial(primero));
+        segundo = Items.get(1);
+        segundo.setCosto(HeuristicaInicial(segundo));
+        if(segundo.getCosto()<primero.getCosto())
+        {
+        
+            Items.clear();
+            Items.add(segundo);
+            Items.add(primero);
+            
+        }
     }
 
     void expandir(Bloque entrada) {
@@ -269,6 +287,20 @@ public class Avara {
             int variablePrimera = hijo.getX() - Items.get(0).getX();
             variablePrimera = Math.abs(variablePrimera);
             int variableSegunda = hijo.getY() - Items.get(0).getY();
+            variableSegunda = Math.abs(variableSegunda);
+            salida = variablePrimera + variableSegunda;
+            System.out.println("Heuriatica" + salida);
+        }
+        return salida;
+
+    }
+        private int HeuristicaInicial(Bloque item) {
+        /*Implementacion de la Heuristica Geometría Taxicab*/
+        int salida = 0;
+        if (!Items.isEmpty()) {
+            int variablePrimera = item.getX() - stdinicial.getX();
+            variablePrimera = Math.abs(variablePrimera);
+            int variableSegunda = item.getY() - stdinicial.getY();
             variableSegunda = Math.abs(variableSegunda);
             salida = variablePrimera + variableSegunda;
             System.out.println("Heuriatica" + salida);

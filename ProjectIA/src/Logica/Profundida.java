@@ -20,13 +20,16 @@ public class Profundida {
     private int premios;
     private int escudo;
     private Pila pila;
+    private int Profundida = 0;
     private ArrayList<Bloque> EntregaFinal;
     private ArrayList<Bloque> solucion;
+    //Donde se encuentra inicialmente robot
     private Bloque stdinicial;
     private int costo_general;
     long time_start, time_end;
 
     public Profundida(Bloque[][] matrix, Bloque Inicial) {
+        
         time_start = System.currentTimeMillis();
         this.EntregaFinal = new ArrayList<>();
         this.matrix = matrix.clone();
@@ -61,14 +64,28 @@ public class Profundida {
 
     void expandir(Bloque entrada) {
         //Comprueba la izquierda
-        izquierda(entrada);
-        derecha(entrada);
-        arriba(entrada);
         bajo(entrada);
+        arriba(entrada);
+        derecha(entrada);
+        izquierda(entrada);    
+    }
+
+    Bloque centro(Bloque entrada) {
+
+        Bloque salida = new Bloque();
+        salida = entrada;
+
+        System.out.println("Logica.Profundida.izquierda() tercera comparacion");
+        pila.push(salida);
+        solucion.add(salida);
+        ObtencionObjetos(salida);
+        solucion.add(salida);
+        System.out.println("Logica.Profundida.izquierda()" + solucion.get(solucion.size() - 1).getUltimoMovimiento());
+
+        return salida;
     }
 
     Bloque izquierda(Bloque entrada) {
-
         Bloque salida = new Bloque();
         salida = null;
         if (entrada.x != 0) {
@@ -76,16 +93,21 @@ public class Profundida {
             /* para No realizar la expacion de su padre
              */
             if (!entrada.getUltimoMovimiento().equals("derecha")) {
+
                 salida = matrix[(entrada.x - 1)][entrada.y];
                 salida.setUltimoMovimiento("izquierda");
                 salida.setPadre(entrada);
                 int costo = Costo(salida, entrada);
                 salida.setCosto(costo);
                 if (!solucion.contains(salida)) {
+
                     if (salida.getContenido() != 1) {
+                        System.out.println("Logica.Profundida.izquierda() tercera comparacion");
                         pila.push(salida);
+                        solucion.add(salida);
                         ObtencionObjetos(salida);
                         solucion.add(salida);
+                        System.out.println("Logica.Profundida.izquierda()" + solucion.get(solucion.size() - 1).getUltimoMovimiento());
                     }
                 }
             }
@@ -180,8 +202,12 @@ public class Profundida {
             n = camino(intro);
             Collections.reverse(n);
             EntregaFinal.addAll(n);
+            Inicial.raiz = true;
+            Inicial.setUltimoMovimiento("raiz");
+            Inicial.setPadre(Inicial);
+            this.pila.push(Inicial);
             Imprimir(camino(intro));
-            /*Codigo esperimental*/
+            /*Codigo esperimental
             pila.clear();
             pila.push(intro);
             solucion.clear();
@@ -189,30 +215,32 @@ public class Profundida {
             Inicial.setUltimoMovimiento("raiz");
             Inicial.setPadre(Inicial);
             this.pila.push(Inicial);
-            /*Fin de Codigo Experimental*/
+            /*Fin de Codigo Experimental
             matrix[intro.x][intro.y].setContenido(0);
+            */
             salida = true;
 
         }
         if (intro.getContenido() == 3) {
             escudo += 1;
             //JOptionPane.showMessageDialog(null, " Encontro escudo X = " + intro.x + "  Y = " + intro.y, "Bateria", 1, IcoRecurso.ICON_TRAJE);
-            matrix[intro.x][intro.y].setContenido(0);
+            /*matrix[intro.x][intro.y].setContenido(0);
             ArrayList<Bloque> n;
             n = camino(intro);
             Collections.reverse(n);
             EntregaFinal.addAll(n);
             Imprimir(camino(intro));
-            salida = true;
+            
             /*Codigo esperimental*/
-            pila.clear();
-            pila.push(intro);
-            solucion.clear();
-            Inicial.raiz = true;
-            Inicial.setUltimoMovimiento("raiz");
-            Inicial.setPadre(Inicial);
-            this.pila.push(Inicial);
+            //pila.clear();
+            //pila.push(intro);
+            //solucion.clear();
+            //Inicial.raiz = true;
+            //Inicial.setUltimoMovimiento("raiz");
+            //Inicial.setPadre(Inicial);
+            //this.pila.push(Inicial);
             /*Fin de Codigo Experimental*/
+            salida = true;
         }
 
         return salida;
@@ -225,7 +253,7 @@ public class Profundida {
         if (premios == 2) {
             time_end = System.currentTimeMillis();
             time_end = (time_end - time_start);
-            JOptionPane.showMessageDialog(null, "Numero de Nodos expandidos: " + solucion.size() + "\n" + "Profundidad del arbol: " + n.size() + "\n" + "Costo: " + costo_general+ "\n" + "Tiempo: "+time_end+" Milisegundos", "Informe", 1, IcoRecurso.ICON_INFORME);
+            JOptionPane.showMessageDialog(null, "Numero de Nodos expandidos: " + solucion.size() + "\n" + "Profundidad del arbol: " + Profundida + "\n" + "Costo: " + costo_general + "\n" + "Tiempo: " + time_end + " Milisegundos", "Informe", 1, IcoRecurso.ICON_INFORME);
         }
     }
 
@@ -241,7 +269,9 @@ public class Profundida {
             nuevo = nuevo.getPadre();
             //nuevo = buscarPadre(salida.get(index));
             salida.add(nuevo);
+            Profundida++;
             if (nuevo.raiz) {
+                salida.add(nuevo);
                 break;
             }
             i++;

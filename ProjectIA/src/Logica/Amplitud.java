@@ -190,21 +190,21 @@ public class Amplitud {
             Inicial.setPadre(Inicial);
             this.cola.push(Inicial);
             /*Fin de Codigo Experimental*/
-            matrix[intro.x][intro.y].setContenido(0);
+            //matrix[intro.x][intro.y].setContenido(0);
             salida = true;
 
         }
         if (intro.getContenido() == 3) {
             escudo += 1;
           //  JOptionPane.showMessageDialog(null, " Encontro escudo X = " + intro.x + "  Y = " + intro.y, "Bateria", 1, IcoRecurso.ICON_TRAJE);
-            matrix[intro.x][intro.y].setContenido(0);
-            ArrayList<Bloque> n;
+           // matrix[intro.x][intro.y].setContenido(0);
+           /* ArrayList<Bloque> n;
             n = camino(intro);
             Collections.reverse(n);
             EntregaFinal.addAll(n);
             Imprimir(camino(intro));
             salida = true;
-            /*Codigo esperimental*/
+            /*Codigo esperimental
             cola.clear();
             cola.push(intro);
             solucion.clear();
